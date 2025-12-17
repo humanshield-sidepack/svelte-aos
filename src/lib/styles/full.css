@@ -1,0 +1,23 @@
+/* 
+  AOS All Styles
+  Import this file for all animations, or import individual files for tree-shaking.
+  
+  Usage:
+    // All animations
+    import 'svelte-aos/styles';
+    
+    // Or selective imports
+    import 'svelte-aos/styles/base.css';    // Required
+    import 'svelte-aos/styles/fade.css';    // Optional
+    import 'svelte-aos/styles/zoom.css';    // Optional
+    import 'svelte-aos/styles/flip.css';    // Optional
+    import 'svelte-aos/styles/slide.css';   // Optional
+    import 'svelte-aos/styles/easings.css'; // Optional (for custom easings)
+*/
+
+@import './base.css';
+@import './fade.css';
+@import './zoom.css';
+@import './flip.css';
+@import './slide.css';
+@import './easings.css';

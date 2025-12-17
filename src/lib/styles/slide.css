@@ -1,0 +1,39 @@
+/* 
+  AOS Slide Animations
+  Slide in from edges (no opacity change, uses visibility)
+  Requires: base.css
+*/
+
+@media screen {
+	html:not(.no-js) {
+		:not(.aos-disabled) {
+			/* Base for all slide animations */
+			[data-aos^='slide'][data-aos^='slide'] {
+				transition-property: transform;
+				visibility: hidden;
+
+				&.aos-animate {
+					visibility: visible;
+					transform: translate3d(0, 0, 0);
+				}
+			}
+
+			/* Slide directions */
+			[data-aos='slide-up'] {
+				transform: translate3d(0, 100%, 0);
+			}
+
+			[data-aos='slide-down'] {
+				transform: translate3d(0, -100%, 0);
+			}
+
+			[data-aos='slide-left'] {
+				transform: translate3d(100%, 0, 0);
+			}
+
+			[data-aos='slide-right'] {
+				transform: translate3d(-100%, 0, 0);
+			}
+		}
+	}
+}

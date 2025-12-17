@@ -1,0 +1,64 @@
+/* 
+  AOS Zoom Animations
+  zoom-in, zoom-out, and directional variants
+  Requires: base.css
+*/
+
+@media screen {
+	html:not(.no-js) {
+		:not(.aos-disabled) {
+			/* Base for all zoom animations */
+			[data-aos^='zoom'][data-aos^='zoom'] {
+				opacity: 0;
+				transition-property: opacity, transform;
+
+				&.aos-animate {
+					opacity: 1;
+					transform: translate3d(0, 0, 0) scale(1);
+				}
+			}
+
+			/* Zoom In */
+			[data-aos='zoom-in'] {
+				transform: scale(0.6);
+			}
+
+			[data-aos='zoom-in-up'] {
+				transform: translate3d(0, var(--aos-distance), 0) scale(0.6);
+			}
+
+			[data-aos='zoom-in-down'] {
+				transform: translate3d(0, calc(-1 * var(--aos-distance)), 0) scale(0.6);
+			}
+
+			[data-aos='zoom-in-left'] {
+				transform: translate3d(var(--aos-distance), 0, 0) scale(0.6);
+			}
+
+			[data-aos='zoom-in-right'] {
+				transform: translate3d(calc(-1 * var(--aos-distance)), 0, 0) scale(0.6);
+			}
+
+			/* Zoom Out */
+			[data-aos='zoom-out'] {
+				transform: scale(1.2);
+			}
+
+			[data-aos='zoom-out-up'] {
+				transform: translate3d(0, var(--aos-distance), 0) scale(1.2);
+			}
+
+			[data-aos='zoom-out-down'] {
+				transform: translate3d(0, calc(-1 * var(--aos-distance)), 0) scale(1.2);
+			}
+
+			[data-aos='zoom-out-left'] {
+				transform: translate3d(var(--aos-distance), 0, 0) scale(1.2);
+			}
+
+			[data-aos='zoom-out-right'] {
+				transform: translate3d(calc(-1 * var(--aos-distance)), 0, 0) scale(1.2);
+			}
+		}
+	}
+}

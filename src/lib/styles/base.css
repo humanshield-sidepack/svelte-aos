@@ -1,0 +1,45 @@
+/* 
+  AOS Base Styles
+  Core transition setup for all AOS animations
+  Required: Always import this file
+*/
+
+@media screen {
+	html:not(.no-js) {
+		:not(.aos-disabled) {
+			/* CSS Custom Properties (defaults) */
+			--aos-duration: 600ms;
+			--aos-delay: 50ms;
+			--aos-distance: 100px;
+
+			/* Base transition for all [data-aos] elements */
+			[data-aos] {
+				transition-duration: var(--aos-duration);
+				transition-delay: var(--aos-delay);
+				transition-timing-function: ease;
+			}
+
+			/* Default animated state */
+			[data-aos].aos-animate {
+				transform: translate3d(0, 0, 0) scale(1) rotate(0);
+			}
+
+			/* Reduced motion support */
+			@media (prefers-reduced-motion: reduce) {
+				[data-aos] {
+					opacity: 1 !important;
+					transform: none !important;
+					transition: none !important;
+				}
+			}
+
+			/* Disabled state */
+			[data-aos-disabled] [data-aos],
+			[data-aos][data-aos-disabled] {
+				opacity: 1 !important;
+				transform: none !important;
+				transition: none !important;
+			}
+		}
+	}
+}
