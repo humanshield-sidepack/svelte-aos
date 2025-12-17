@@ -1,6 +1,6 @@
 {
 	"name": "svelte-aos",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"license": "MIT",
 	"description": "Animate On Scroll (AOS) library for Svelte applications. Easily add scroll-based animations to your Svelte components with customizable options.",
 	"author": {
