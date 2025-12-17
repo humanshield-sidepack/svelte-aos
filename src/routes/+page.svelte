@@ -21,6 +21,71 @@
 		</nav>
 	</header>
 
+	<!-- Why Section -->
+	<section class="why-section">
+		<div class="container">
+			<h2 data-aos="fade-up">Why AOS Svelte?</h2>
+			<p class="subtitle" data-aos="fade-up" data-aos-delay="50">
+				A lightweight, performant scroll animation library built specifically for Svelte
+			</p>
+
+			<div class="features-grid">
+				<div class="feature" data-aos="zoom-in" data-aos-delay="100">
+					<div class="feature-icon">⚡</div>
+					<h3>Blazing Fast</h3>
+					<p>
+						<strong>&lt;1KB</strong> gzipped JavaScript<br />
+						<strong>2KB</strong> gzipped CSS (full bundle)
+					</p>
+				</div>
+
+				<div class="feature" data-aos="zoom-in" data-aos-delay="200">
+					<div class="feature-icon">🎯</div>
+					<h3>Optimized Bundle</h3>
+					<p>
+						Import only what you need<br />
+						Selective CSS imports for minimal footprint
+					</p>
+				</div>
+
+				<div class="feature" data-aos="zoom-in" data-aos-delay="300">
+					<div class="feature-icon">🚀</div>
+					<h3>Zero Dependencies</h3>
+					<p>
+						No external dependencies<br />
+					</p>
+				</div>
+
+				<div class="feature" data-aos="zoom-in" data-aos-delay="400">
+					<div class="feature-icon">🔧</div>
+					<h3>Universal Compatibility</h3>
+					<p>
+						Svelte 4 & 5 support<br />
+						Actions or Attachments
+					</p>
+				</div>
+
+				<div class="feature" data-aos="zoom-in" data-aos-delay="500">
+					<div class="feature-icon">⚙️</div>
+					<h3>Highly Performant</h3>
+					<p>
+						Uses IntersectionObserver<br />
+						Optimized for smooth animations
+					</p>
+				</div>
+
+				<div class="feature" data-aos="zoom-in" data-aos-delay="600">
+					<div class="feature-icon">🎨</div>
+					<h3>Fully Customizable</h3>
+					<p>
+						30+ pre-built animations<br />
+						Flexible configuration options
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<!-- Installation -->
 	<section id="installation" class="section">
 		<h2 data-aos="fade-up">Installation</h2>
@@ -441,7 +506,7 @@ import 'svelte-aos/styles/easings.css';</code
 	<footer>
 		<p>AOS Svelte — Scroll to reveal animations for Svelte 5</p>
 		<p>
-			<a href="/travel">Landing Page Example</a> · <a href="/travel">Travel Agency Example</a>
+			<a href="/travel">Travel Agency</a> · <a href="/ecommerce">E-commerce SaaS</a>
 		</p>
 	</footer>
 </main>
@@ -499,6 +564,74 @@ import 'svelte-aos/styles/easings.css';</code
 
 	.hero nav a:hover {
 		background: rgba(255, 255, 255, 0.25);
+	}
+
+	/* Why Section */
+	.why-section {
+		padding: 6rem 2rem;
+		background: white;
+	}
+
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.why-section h2 {
+		font-size: 2.5rem;
+		text-align: center;
+		margin: 0 0 0.5rem;
+		color: #2d3436;
+	}
+
+	.subtitle {
+		text-align: center;
+		color: #636e72;
+		font-size: 1.15rem;
+		margin: 0 0 4rem;
+	}
+
+	.features-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 2.5rem;
+	}
+
+	.feature {
+		text-align: center;
+		padding: 2rem 1.5rem;
+		background: #f8f9fa;
+		border-radius: 16px;
+		transition:
+			transform 0.3s,
+			box-shadow 0.3s;
+	}
+
+	.feature:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+	}
+
+	.feature-icon {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+	}
+
+	.feature h3 {
+		font-size: 1.25rem;
+		margin: 0 0 0.75rem;
+		color: #2d3436;
+	}
+
+	.feature p {
+		color: #636e72;
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	.feature p strong {
+		color: #667eea;
+		font-weight: 600;
 	}
 
 	/* Sections */

@@ -103,7 +103,7 @@
 	<title>Wanderlust Travel Agency - Explore the World</title>
 </svelte:head>
 
-<div class="page" {@attach aosObserver({ threshold: 0.1, once: true })}>
+<div class="page" {@attach aosObserver({ threshold: 0.1, once: false })}>
 	<!-- Navigation -->
 	<nav class="navbar">
 		<div class="nav-container">
