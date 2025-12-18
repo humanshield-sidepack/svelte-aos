@@ -5,22 +5,8 @@ import type {
 	EasingType,
 	AnchorPlacement
 } from './types.ts';
+import { detectDeviceType } from './utils.ts';
 // import './styles.css';
-
-// TODO: Improve this device detection logic
-function detectDeviceType(): 'mobile' | 'tablet' | 'desktop' {
-	if (typeof navigator === 'undefined') return 'desktop';
-
-	const ua = navigator.userAgent;
-
-	if (/Mobi|Android/i.test(ua)) {
-		return 'mobile';
-	} else if (/Tablet|iPad/i.test(ua)) {
-		return 'tablet';
-	} else {
-		return 'desktop';
-	}
-}
 
 const computeRootMargin = (anchorPlacement: AnchorPlacement, offset = 0) => {
 	// simple handling for common placements; expand if needed
@@ -53,7 +39,7 @@ const defaultOptions: Required<AOSOptions> = {
 	// disableMutationObserver: false
 };
 
-function setipObserver(params: AOSOptions, node: HTMLElement) {
+function initializeIntersectionObserver(params: AOSOptions, node: HTMLElement) {
 	if (params?.duration) {
 		node.style.setProperty('--aos-duration', `${params.duration}ms`);
 	}
@@ -156,10 +142,10 @@ function setipObserver(params: AOSOptions, node: HTMLElement) {
 }
 
 /**
- * Create a Svelte attacheemnt that observes elements with `data-aos` and toggles
+ * Create a Svelte attachment that observes elements with `data-aos` and toggles
  * animation classes when they intersect the viewport.
  *
- * The attachement will:
+ * The attachment will:
  * - Apply per-element CSS variables (duration/delay) from `data-aos-*` attributes
  *   or from the `params` defaults.
  * - Add the `.aos-animate` class when the element meets the `threshold`/`rootMargin` criteria.
@@ -182,7 +168,7 @@ export function aosObserver(params?: {
 	params = { ...defaultOptions, ...params };
 
 	return function (node: HTMLElement) {
-		const { io, mo } = setipObserver(params!, node);
+		const { io, mo } = initializeIntersectionObserver(params!, node);
 		return () => {
 			io.disconnect();
 			mo.disconnect();
@@ -212,7 +198,7 @@ export function aosAction(
 ) {
 	params = { ...defaultOptions, ...params };
 
-	const { io, mo } = setipObserver(params!, node);
+	const { io, mo } = initializeIntersectionObserver(params!, node);
 
 	return {
 		update: () => {

@@ -519,7 +519,8 @@ import 'svelte-aos/styles/easings.css';</code
 	<footer>
 		<p>AOS Svelte — Scroll to reveal animations for Svelte 5</p>
 		<p>
-			<a href="/travel">Travel Agency</a> · <a href="/ecommerce">E-commerce SaaS</a>
+			<a href="/travel">Travel Agency</a> · <a href="/ecommerce">E-commerce SaaS</a> ·
+			<a href="/no-mutation">Explicit AOS attachement</a>
 		</p>
 	</footer>
 </main>
