@@ -6,33 +6,31 @@
 
 @media screen {
 	html:not(.no-js) {
-		:not(.aos-disabled) {
-			/* Base for all flip animations */
-			[data-aos^='flip'][data-aos^='flip'] {
-				backface-visibility: hidden;
-				transition-property: transform;
+		/* Base for all flip animations */
+		[data-aos^='flip'][data-aos^='flip'] {
+			backface-visibility: hidden;
+			transition-property: transform;
 
-				&.aos-animate {
-					transform: perspective(2500px) rotateX(0) rotateY(0);
-				}
+			&.aos-animate {
+				transform: perspective(2500px) rotateX(0) rotateY(0);
 			}
+		}
 
-			/* Flip directions */
-			[data-aos='flip-up'] {
-				transform: perspective(2500px) rotateX(-100deg);
-			}
+		/* Flip directions */
+		[data-aos='flip-up'] {
+			transform: perspective(2500px) rotateX(-100deg);
+		}
 
-			[data-aos='flip-down'] {
-				transform: perspective(2500px) rotateX(100deg);
-			}
+		[data-aos='flip-down'] {
+			transform: perspective(2500px) rotateX(100deg);
+		}
 
-			[data-aos='flip-left'] {
-				transform: perspective(2500px) rotateY(-100deg);
-			}
+		[data-aos='flip-left'] {
+			transform: perspective(2500px) rotateY(-100deg);
+		}
 
-			[data-aos='flip-right'] {
-				transform: perspective(2500px) rotateY(100deg);
-			}
+		[data-aos='flip-right'] {
+			transform: perspective(2500px) rotateY(100deg);
 		}
 	}
 }

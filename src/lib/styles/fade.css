@@ -6,56 +6,54 @@
 
 @media screen {
 	html:not(.no-js) {
-		:not(.aos-disabled) {
-			/* Base for all fade animations */
-			[data-aos^='fade'][data-aos^='fade'] {
-				opacity: 0;
-				transition-property: opacity, transform;
+		/* Base for all fade animations */
+		[data-aos^='fade'][data-aos^='fade'] {
+			opacity: 0;
+			transition-property: opacity, transform;
 
-				&.aos-animate {
-					opacity: 1;
-					transform: none;
-				}
+			&.aos-animate {
+				opacity: 1;
+				transform: none;
 			}
+		}
 
-			/* Simple fade (no movement) */
-			[data-aos='fade'] {
-				transform: translate3d(0, 0, 0);
-			}
+		/* Simple fade (no movement) */
+		[data-aos='fade'] {
+			transform: translate3d(0, 0, 0);
+		}
 
-			/* Directional fades */
-			[data-aos='fade-up'] {
-				transform: translate3d(0, var(--aos-distance), 0);
-			}
+		/* Directional fades */
+		[data-aos='fade-up'] {
+			transform: translate3d(0, var(--aos-distance), 0);
+		}
 
-			[data-aos='fade-down'] {
-				transform: translate3d(0, calc(-1 * var(--aos-distance)), 0);
-			}
+		[data-aos='fade-down'] {
+			transform: translate3d(0, calc(-1 * var(--aos-distance)), 0);
+		}
 
-			[data-aos='fade-left'] {
-				transform: translate3d(var(--aos-distance), 0, 0);
-			}
+		[data-aos='fade-left'] {
+			transform: translate3d(var(--aos-distance), 0, 0);
+		}
 
-			[data-aos='fade-right'] {
-				transform: translate3d(calc(-1 * var(--aos-distance)), 0, 0);
-			}
+		[data-aos='fade-right'] {
+			transform: translate3d(calc(-1 * var(--aos-distance)), 0, 0);
+		}
 
-			/* Diagonal fades */
-			[data-aos='fade-up-left'] {
-				transform: translate3d(var(--aos-distance), var(--aos-distance), 0);
-			}
+		/* Diagonal fades */
+		[data-aos='fade-up-left'] {
+			transform: translate3d(var(--aos-distance), var(--aos-distance), 0);
+		}
 
-			[data-aos='fade-up-right'] {
-				transform: translate3d(calc(-1 * var(--aos-distance)), var(--aos-distance), 0);
-			}
+		[data-aos='fade-up-right'] {
+			transform: translate3d(calc(-1 * var(--aos-distance)), var(--aos-distance), 0);
+		}
 
-			[data-aos='fade-down-left'] {
-				transform: translate3d(var(--aos-distance), calc(-1 * var(--aos-distance)), 0);
-			}
+		[data-aos='fade-down-left'] {
+			transform: translate3d(var(--aos-distance), calc(-1 * var(--aos-distance)), 0);
+		}
 
-			[data-aos='fade-down-right'] {
-				transform: translate3d(calc(-1 * var(--aos-distance)), calc(-1 * var(--aos-distance)), 0);
-			}
+		[data-aos='fade-down-right'] {
+			transform: translate3d(calc(-1 * var(--aos-distance)), calc(-1 * var(--aos-distance)), 0);
 		}
 	}
 }

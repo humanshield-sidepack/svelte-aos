@@ -32,18 +32,6 @@
 			}
 		}
 
-		/* Disabled state */
-		/* 
-			I guess adding data-aos="disabled" to an element will disable AOS for that element
-			this still won't work so let's leave it for later
-		*/
-		/* [data-aos-disabled] [data-aos],
-		[data-aos][data-aos-disabled] {
-			opacity: 1 !important;
-			transform: none !important;
-			transition: none !important;
-		} */
-
 		/* this is used for the global disable option */
 		.aos-disabled {
 			* {

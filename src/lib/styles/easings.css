@@ -6,92 +6,90 @@
 
 @media screen {
 	html:not(.no-js) {
-		:not(.aos-disabled) {
-			/* Standard easings */
-			[data-aos][data-aos-easing='linear'] {
-				transition-timing-function: linear;
-			}
+		/* Standard easings */
+		[data-aos][data-aos-easing='linear'] {
+			transition-timing-function: linear;
+		}
 
-			[data-aos][data-aos-easing='ease'] {
-				transition-timing-function: ease;
-			}
+		[data-aos][data-aos-easing='ease'] {
+			transition-timing-function: ease;
+		}
 
-			[data-aos][data-aos-easing='ease-in'] {
-				transition-timing-function: ease-in;
-			}
+		[data-aos][data-aos-easing='ease-in'] {
+			transition-timing-function: ease-in;
+		}
 
-			[data-aos][data-aos-easing='ease-out'] {
-				transition-timing-function: ease-out;
-			}
+		[data-aos][data-aos-easing='ease-out'] {
+			transition-timing-function: ease-out;
+		}
 
-			[data-aos][data-aos-easing='ease-in-out'] {
-				transition-timing-function: ease-in-out;
-			}
+		[data-aos][data-aos-easing='ease-in-out'] {
+			transition-timing-function: ease-in-out;
+		}
 
-			/* Back easings (overshoot) */
-			[data-aos][data-aos-easing='ease-in-back'] {
-				transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
-			}
+		/* Back easings (overshoot) */
+		[data-aos][data-aos-easing='ease-in-back'] {
+			transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+		}
 
-			[data-aos][data-aos-easing='ease-out-back'] {
-				transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-			}
+		[data-aos][data-aos-easing='ease-out-back'] {
+			transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		}
 
-			[data-aos][data-aos-easing='ease-in-out-back'] {
-				transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-			}
+		[data-aos][data-aos-easing='ease-in-out-back'] {
+			transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+		}
 
-			/* Sine easings (smooth) */
-			[data-aos][data-aos-easing='ease-in-sine'] {
-				transition-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
-			}
+		/* Sine easings (smooth) */
+		[data-aos][data-aos-easing='ease-in-sine'] {
+			transition-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+		}
 
-			[data-aos][data-aos-easing='ease-out-sine'] {
-				transition-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
-			}
+		[data-aos][data-aos-easing='ease-out-sine'] {
+			transition-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
+		}
 
-			[data-aos][data-aos-easing='ease-in-out-sine'] {
-				transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
-			}
+		[data-aos][data-aos-easing='ease-in-out-sine'] {
+			transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+		}
 
-			/* Quad easings (moderate acceleration) */
-			[data-aos][data-aos-easing='ease-in-quad'] {
-				transition-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
-			}
+		/* Quad easings (moderate acceleration) */
+		[data-aos][data-aos-easing='ease-in-quad'] {
+			transition-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+		}
 
-			[data-aos][data-aos-easing='ease-out-quad'] {
-				transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-			}
+		[data-aos][data-aos-easing='ease-out-quad'] {
+			transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		}
 
-			[data-aos][data-aos-easing='ease-in-out-quad'] {
-				transition-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
-			}
+		[data-aos][data-aos-easing='ease-in-out-quad'] {
+			transition-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+		}
 
-			/* Cubic easings (stronger acceleration) */
-			[data-aos][data-aos-easing='ease-in-cubic'] {
-				transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-			}
+		/* Cubic easings (stronger acceleration) */
+		[data-aos][data-aos-easing='ease-in-cubic'] {
+			transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+		}
 
-			[data-aos][data-aos-easing='ease-out-cubic'] {
-				transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-			}
+		[data-aos][data-aos-easing='ease-out-cubic'] {
+			transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+		}
 
-			[data-aos][data-aos-easing='ease-in-out-cubic'] {
-				transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-			}
+		[data-aos][data-aos-easing='ease-in-out-cubic'] {
+			transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+		}
 
-			/* Quart easings (aggressive acceleration) */
-			[data-aos][data-aos-easing='ease-in-quart'] {
-				transition-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
-			}
+		/* Quart easings (aggressive acceleration) */
+		[data-aos][data-aos-easing='ease-in-quart'] {
+			transition-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+		}
 
-			[data-aos][data-aos-easing='ease-out-quart'] {
-				transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-			}
+		[data-aos][data-aos-easing='ease-out-quart'] {
+			transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+		}
 
-			[data-aos][data-aos-easing='ease-in-out-quart'] {
-				transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
-			}
+		[data-aos][data-aos-easing='ease-in-out-quart'] {
+			transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 		}
 	}
 }
