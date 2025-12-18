@@ -36,7 +36,7 @@ class IntersectionObserverManager {
 			threshold: options.threshold,
 			rootMargin: `0px 0px -${options.offset}px 0px`
 		});
-		console.log('disabled options:', options);
+
 		// handle disable option
 		if (typeof options?.disable === 'boolean' && options.disable) {
 			document.body.classList.add('aos-disabled');
@@ -53,7 +53,6 @@ class IntersectionObserverManager {
 	}
 
 	handleIntersect(entries: IntersectionObserverEntry[]) {
-		console.log('Handling intersections with options:', this.options);
 		entries.forEach((entry) => {
 			if (entry.isIntersecting && entry.intersectionRatio > 0.05) {
 				if (this.elements.has(entry.target as HTMLElement)) {
@@ -78,7 +77,6 @@ class IntersectionObserverManager {
 	}
 
 	observe(element: HTMLElement, options: AOSElementOptions) {
-		console.log('Before Observing element with options:', element, options);
 		this.elements.set(element, this.options);
 
 		if (options.animation) {
@@ -112,7 +110,6 @@ class IntersectionObserverManager {
 let observerManager: IntersectionObserverManager | null = null;
 
 export function initAOS(options: AOSOptions = {}) {
-	console.log('Initializing AOS with options:', options);
 	if (typeof window === 'undefined') {
 		console.warn('AOS can only be initialized in a browser environment.');
 		return;
