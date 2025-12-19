@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { aosObserver } from '$lib/aos.ts';
-	import '$lib/styles/full.css';
+	import { aosAttachment, aosAction, AOS } from '$lib/index.ts';
 
 	const features = [
 		{
@@ -136,15 +135,17 @@
 	<title>StoreCraft - Build Your Online Empire</title>
 </svelte:head>
 
-<div class="page" {@attach aosObserver({ threshold: 0.1, once: false })}>
+<AOS options={{ threshold: 0.1, once: false }} />
+
+<div class="page">
 	<!-- Navigation -->
 	<nav class="navbar">
 		<div class="nav-container">
-			<a href="/ecommerce" class="logo" data-aos="fade-right">
+			<a href="/ecommerce" class="logo" data-aos="fade-right" {@attach aosAttachment()}>
 				<span class="logo-icon">🏪</span>
 				<span class="logo-text">StoreCraft</span>
 			</a>
-			<div class="nav-links" data-aos="fade-left">
+			<div class="nav-links" data-aos="fade-left" {@attach aosAttachment()}>
 				<a href="#features">Features</a>
 				<a href="#pricing">Pricing</a>
 				<a href="#testimonials">Stories</a>
@@ -156,17 +157,17 @@
 	<!-- Hero Section -->
 	<header class="hero">
 		<div class="hero-content">
-			<div class="hero-badge" data-aos="fade-down">
+			<div class="hero-badge" data-aos="fade-down" {@attach aosAttachment()}>
 				<span>🎉</span> Trusted by 50,000+ merchants worldwide
 			</div>
-			<h1 data-aos="fade-up" data-aos-delay="100">
+			<h1 data-aos="fade-up" {@attach aosAttachment({ delay: 100 })}>
 				Launch Your<br /><span class="gradient-text">Online Store</span><br />in Minutes
 			</h1>
-			<p data-aos="fade-up" data-aos-delay="200">
+			<p data-aos="fade-up" {@attach aosAttachment({ delay: 200 })}>
 				The all-in-one commerce platform to start, run, and grow your business.<br />
 				No coding required. Start selling today.
 			</p>
-			<div class="hero-cta" data-aos="fade-up" data-aos-delay="300">
+			<div class="hero-cta" data-aos="fade-up" {@attach aosAttachment({ delay: 300 })}>
 				<a href="#start" class="btn btn-primary btn-large">
 					Start Free Trial
 					<span class="btn-arrow">→</span>
@@ -176,11 +177,15 @@
 					Watch Demo
 				</a>
 			</div>
-			<p class="hero-note" data-aos="fade-up" data-aos-delay="400">
+			<p class="hero-note" data-aos="fade-up" {@attach aosAttachment({ delay: 400 })}>
 				✓ 14-day free trial &nbsp; ✓ No credit card required &nbsp; ✓ Cancel anytime
 			</p>
 		</div>
-		<div class="hero-visual" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="800">
+		<div
+			class="hero-visual"
+			data-aos="zoom-in"
+			{@attach aosAttachment({ delay: 300, duration: 800 })}
+		>
 			<div class="dashboard-preview">
 				<div class="preview-header">
 					<div class="preview-dots">
@@ -222,7 +227,7 @@
 	<section class="stats-bar">
 		<div class="stats-container">
 			{#each stats as stat, i}
-				<div class="stat-item" data-aos="fade-up" data-aos-delay={i * 100}>
+				<div class="stat-item" data-aos="fade-up" {@attach aosAttachment({ delay: i * 100 })}>
 					<span class="stat-value">{stat.value}</span>
 					<span class="stat-label">{stat.label}</span>
 				</div>
@@ -234,9 +239,11 @@
 	<section id="features" class="features-section">
 		<div class="container">
 			<div class="section-header">
-				<span class="section-tag" data-aos="fade-up">FEATURES</span>
-				<h2 data-aos="fade-up" data-aos-delay="50">Everything You Need to Sell Online</h2>
-				<p data-aos="fade-up" data-aos-delay="100">
+				<span class="section-tag" data-aos="fade-up" {@attach aosAttachment()}>FEATURES</span>
+				<h2 data-aos="fade-up" {@attach aosAttachment({ delay: 50 })}>
+					Everything You Need to Sell Online
+				</h2>
+				<p data-aos="fade-up" {@attach aosAttachment({ delay: 100 })}>
 					Powerful tools designed to help you build, manage, and scale your e-commerce business
 				</p>
 			</div>
@@ -246,8 +253,7 @@
 					<div
 						class="feature-card"
 						data-aos="fade-up"
-						data-aos-delay={100 + i * 75}
-						data-aos-easing="ease-out-back"
+						{@attach aosAttachment({ delay: 100 + i * 75, easing: 'ease-out-back' })}
 					>
 						<div class="feature-icon">{feature.icon}</div>
 						<h3>{feature.title}</h3>
@@ -262,12 +268,12 @@
 	<section class="how-section">
 		<div class="container">
 			<div class="section-header">
-				<span class="section-tag" data-aos="fade-up">HOW IT WORKS</span>
-				<h2 data-aos="fade-up" data-aos-delay="50">Launch in 3 Simple Steps</h2>
+				<span class="section-tag" data-aos="fade-up" {@attach aosAttachment()}>HOW IT WORKS</span>
+				<h2 data-aos="fade-up" {@attach aosAttachment({ delay: 50 })}>Launch in 3 Simple Steps</h2>
 			</div>
 
 			<div class="steps-container">
-				<div class="step-card" data-aos="fade-right" data-aos-delay="100">
+				<div class="step-card" data-aos="fade-right" {@attach aosAttachment({ delay: 100 })}>
 					<div class="step-number">01</div>
 					<h3>Choose Your Theme</h3>
 					<p>Pick from 100+ professionally designed templates optimized for conversion</p>
@@ -278,12 +284,12 @@
 					</div>
 				</div>
 
-				<div class="step-connector" data-aos="fade-up" data-aos-delay="200">
+				<div class="step-connector" data-aos="fade-up" {@attach aosAttachment({ delay: 200 })}>
 					<div class="connector-line"></div>
 					<div class="connector-arrow">→</div>
 				</div>
 
-				<div class="step-card" data-aos="fade-up" data-aos-delay="200">
+				<div class="step-card" data-aos="fade-up" {@attach aosAttachment({ delay: 200 })}>
 					<div class="step-number">02</div>
 					<h3>Add Your Products</h3>
 					<p>Upload products in bulk or one by one with our intuitive product manager</p>
@@ -299,12 +305,12 @@
 					</div>
 				</div>
 
-				<div class="step-connector" data-aos="fade-up" data-aos-delay="300">
+				<div class="step-connector" data-aos="fade-up" {@attach aosAttachment({ delay: 300 })}>
 					<div class="connector-line"></div>
 					<div class="connector-arrow">→</div>
 				</div>
 
-				<div class="step-card" data-aos="fade-left" data-aos-delay="300">
+				<div class="step-card" data-aos="fade-left" {@attach aosAttachment({ delay: 300 })}>
 					<div class="step-number">03</div>
 					<h3>Start Selling</h3>
 					<p>Go live and start accepting orders from customers around the world</p>
@@ -321,9 +327,11 @@
 	<section id="pricing" class="pricing-section">
 		<div class="container">
 			<div class="section-header">
-				<span class="section-tag" data-aos="fade-up">PRICING</span>
-				<h2 data-aos="fade-up" data-aos-delay="50">Simple, Transparent Pricing</h2>
-				<p data-aos="fade-up" data-aos-delay="100">
+				<span class="section-tag" data-aos="fade-up" {@attach aosAttachment()}>PRICING</span>
+				<h2 data-aos="fade-up" {@attach aosAttachment({ delay: 50 })}>
+					Simple, Transparent Pricing
+				</h2>
+				<p data-aos="fade-up" {@attach aosAttachment({ delay: 100 })}>
 					No hidden fees. No surprises. Choose the plan that fits your business.
 				</p>
 			</div>
@@ -334,7 +342,7 @@
 						class="pricing-card"
 						class:highlighted={plan.highlighted}
 						data-aos="fade-up"
-						data-aos-delay={i * 100}
+						{@attach aosAttachment({ delay: i * 100 })}
 					>
 						{#if plan.highlighted}
 							<div class="popular-badge">Most Popular</div>
@@ -363,8 +371,9 @@
 	<section id="testimonials" class="testimonials-section">
 		<div class="container">
 			<div class="section-header">
-				<span class="section-tag" data-aos="fade-up">SUCCESS STORIES</span>
-				<h2 data-aos="fade-up" data-aos-delay="50">Merchants Love StoreCraft</h2>
+				<span class="section-tag" data-aos="fade-up" {@attach aosAttachment()}>SUCCESS STORIES</span
+				>
+				<h2 data-aos="fade-up" {@attach aosAttachment({ delay: 50 })}>Merchants Love StoreCraft</h2>
 			</div>
 
 			<div class="testimonials-grid">
@@ -372,8 +381,7 @@
 					<div
 						class="testimonial-card"
 						data-aos="flip-up"
-						data-aos-delay={i * 150}
-						data-aos-easing="ease-out-back"
+						{@attach aosAttachment({ delay: i * 150, easing: 'ease-out-back' })}
 					>
 						<div class="testimonial-revenue">{testimonial.revenue}</div>
 						<blockquote>"{testimonial.quote}"</blockquote>
@@ -393,12 +401,18 @@
 	<!-- Integrations Section -->
 	<section class="integrations-section">
 		<div class="container">
-			<h2 data-aos="fade-up">Connects With Your Favorite Tools</h2>
-			<p data-aos="fade-up" data-aos-delay="50">Seamlessly integrate with 200+ apps and services</p>
+			<h2 data-aos="fade-up" {@attach aosAttachment()}>Connects With Your Favorite Tools</h2>
+			<p data-aos="fade-up" {@attach aosAttachment({ delay: 50 })}>
+				Seamlessly integrate with 200+ apps and services
+			</p>
 
-			<div class="integrations-grid" data-aos="fade-up" data-aos-delay="100">
+			<div class="integrations-grid" data-aos="fade-up" {@attach aosAttachment({ delay: 100 })}>
 				{#each integrations as integration, i}
-					<div class="integration-badge" data-aos="zoom-in" data-aos-delay={100 + i * 50}>
+					<div
+						class="integration-badge"
+						data-aos="zoom-in"
+						{@attach aosAttachment({ delay: 100 + i * 50 })}
+					>
 						{integration}
 					</div>
 				{/each}
@@ -408,10 +422,10 @@
 
 	<!-- CTA Section -->
 	<section id="start" class="cta-section">
-		<div class="cta-content" data-aos="zoom-in">
+		<div class="cta-content" data-aos="zoom-in" {@attach aosAttachment()}>
 			<h2>Ready to Build Your Online Empire?</h2>
 			<p>Join 50,000+ merchants who chose StoreCraft to power their business</p>
-			<form class="cta-form" data-aos="fade-up" data-aos-delay="200">
+			<form class="cta-form" data-aos="fade-up" {@attach aosAttachment({ delay: 200 })}>
 				<input type="email" placeholder="Enter your email" />
 				<button type="submit" class="btn btn-white">Start Free Trial</button>
 			</form>
@@ -423,7 +437,7 @@
 	<footer class="footer">
 		<div class="container">
 			<div class="footer-grid">
-				<div class="footer-brand" data-aos="fade-up">
+				<div class="footer-brand" data-aos="fade-up" {@attach aosAttachment()}>
 					<div class="logo">
 						<span class="logo-icon">🏪</span>
 						<span class="logo-text">StoreCraft</span>
@@ -436,21 +450,21 @@
 						<a href="#!" aria-label="Instagram">📷</a>
 					</div>
 				</div>
-				<div class="footer-links" data-aos="fade-up" data-aos-delay="100">
+				<div class="footer-links" data-aos="fade-up" {@attach aosAttachment({ delay: 100 })}>
 					<h4>Product</h4>
 					<a href="#features">Features</a>
 					<a href="#pricing">Pricing</a>
 					<a href="#!">Templates</a>
 					<a href="#!">Integrations</a>
 				</div>
-				<div class="footer-links" data-aos="fade-up" data-aos-delay="200">
+				<div class="footer-links" data-aos="fade-up" {@attach aosAttachment({ delay: 200 })}>
 					<h4>Resources</h4>
 					<a href="#!">Help Center</a>
 					<a href="#!">Blog</a>
 					<a href="#!">API Docs</a>
 					<a href="#!">Community</a>
 				</div>
-				<div class="footer-links" data-aos="fade-up" data-aos-delay="300">
+				<div class="footer-links" data-aos="fade-up" {@attach aosAttachment({ delay: 300 })}>
 					<h4>Company</h4>
 					<a href="#!">About</a>
 					<a href="#!">Careers</a>

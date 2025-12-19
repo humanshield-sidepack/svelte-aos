@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { aosObserver } from '$lib/aos.ts';
-	import '$lib/styles/full.css';
+	import AOS from '$lib/AOS.svelte';
+	import { aosAttachment } from '$lib/index.ts';
 
 	const destinations = [
 		{
@@ -103,15 +103,17 @@
 	<title>Wanderlust Travel Agency - Explore the World</title>
 </svelte:head>
 
-<div class="page" {@attach aosObserver({ threshold: 0.1, once: false })}>
+<AOS />
+
+<div class="page">
 	<!-- Navigation -->
 	<nav class="navbar">
 		<div class="nav-container">
-			<a href="/travel" class="logo" data-aos="fade-right">
+			<a href="/travel" class="logo" data-aos="fade-right" {@attach aosAttachment()}>
 				<span class="logo-icon">🌍</span>
 				<span class="logo-text">Wanderlust</span>
 			</a>
-			<div class="nav-links" data-aos="fade-left">
+			<div class="nav-links" data-aos="fade-left" {@attach aosAttachment()}>
 				<a href="#destinations">Destinations</a>
 				<a href="#services">Services</a>
 				<a href="#testimonials">Reviews</a>
@@ -124,27 +126,27 @@
 	<header class="hero">
 		<div class="hero-bg"></div>
 		<div class="hero-content">
-			<h1 data-aos="fade-down" data-aos-duration="800">
+			<h1 data-aos="fade-down" {@attach aosAttachment({ duration: 800 })}>
 				Discover Your Next<br /><span class="highlight">Adventure</span>
 			</h1>
-			<p data-aos="fade-up" data-aos-delay="200">
+			<p data-aos="fade-up" {@attach aosAttachment({ delay: 200 })}>
 				Curated travel experiences to the world's most breathtaking destinations.<br />
 				Your journey of a lifetime starts here.
 			</p>
-			<div class="hero-actions" data-aos="fade-up" data-aos-delay="400">
+			<div class="hero-actions" data-aos="fade-up" {@attach aosAttachment({ delay: 400 })}>
 				<a href="#destinations" class="btn btn-primary">Explore Destinations</a>
 				<a href="#contact" class="btn btn-outline">Plan Your Trip</a>
 			</div>
-			<div class="hero-stats" data-aos="fade-up" data-aos-delay="600">
+			<div class="hero-stats" data-aos="fade-up" {@attach aosAttachment({ delay: 600 })}>
 				{#each stats as stat, i}
-					<div class="stat" data-aos="zoom-in" data-aos-delay={700 + i * 100}>
+					<div class="stat" data-aos="zoom-in" {@attach aosAttachment({ delay: 700 + i * 100 })}>
 						<span class="stat-value">{stat.value}</span>
 						<span class="stat-label">{stat.label}</span>
 					</div>
 				{/each}
 			</div>
 		</div>
-		<div class="scroll-indicator" data-aos="fade-up" data-aos-delay="1000">
+		<div class="scroll-indicator" data-aos="fade-up" {@attach aosAttachment({ delay: 1000 })}>
 			<span>Scroll to explore</span>
 			<div class="scroll-arrow">↓</div>
 		</div>
@@ -153,13 +155,13 @@
 	<!-- Features Section -->
 	<section id="services" class="features-section">
 		<div class="container">
-			<h2 data-aos="fade-up">Why Travel With Us</h2>
-			<p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+			<h2 data-aos="fade-up" {@attach aosAttachment()}>Why Travel With Us</h2>
+			<p class="section-subtitle" data-aos="fade-up" {@attach aosAttachment({ delay: 100 })}>
 				We handle every detail so you can focus on making memories
 			</p>
 			<div class="features-grid">
 				{#each features as feature, i}
-					<div class="feature-card" data-aos="flip-up" data-aos-delay={i * 100}>
+					<div class="feature-card" data-aos="flip-up" {@attach aosAttachment({ delay: i * 100 })}>
 						<div class="feature-icon">{feature.icon}</div>
 						<h3>{feature.title}</h3>
 						<p>{feature.description}</p>
@@ -182,6 +184,7 @@
 						class="destination-card"
 						data-aos={i % 2 === 0 ? 'fade-right' : 'fade-left'}
 						data-aos-delay={i * 100}
+						{@attach aosAttachment({ delay: i * 100 })}
 					>
 						<div class="card-image">
 							<img src={dest.image} alt={dest.name} loading="lazy" />
@@ -206,10 +209,10 @@
 
 	<!-- CTA Banner -->
 	<section class="cta-banner">
-		<div class="cta-content" data-aos="zoom-in">
+		<div class="cta-content" data-aos="zoom-in" {@attach aosAttachment()}>
 			<h2>Ready for Your Dream Vacation?</h2>
 			<p>Get 20% off your first booking when you sign up today</p>
-			<form class="cta-form" data-aos="fade-up" data-aos-delay="200">
+			<form class="cta-form" data-aos="fade-up" {@attach aosAttachment({ delay: 200 })}>
 				<input type="email" placeholder="Enter your email" />
 				<button type="submit" class="btn btn-primary">Get Started</button>
 			</form>
@@ -219,8 +222,8 @@
 	<!-- Testimonials Section -->
 	<section id="testimonials" class="testimonials-section">
 		<div class="container">
-			<h2 data-aos="fade-up">What Our Travelers Say</h2>
-			<p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+			<h2 data-aos="fade-up" {@attach aosAttachment()}>What Our Travelers Say</h2>
+			<p class="section-subtitle" data-aos="fade-up" {@attach aosAttachment({ delay: 100 })}>
 				Real stories from real adventurers
 			</p>
 			<div class="testimonials-grid">
@@ -228,8 +231,7 @@
 					<div
 						class="testimonial-card"
 						data-aos="fade-up"
-						data-aos-delay={i * 150}
-						data-aos-easing="ease-out-back"
+						{@attach aosAttachment({ delay: i * 150, easing: 'ease-out-back' })}
 					>
 						<div class="quote-icon">"</div>
 						<p class="testimonial-text">{testimonial.text}</p>
@@ -248,37 +250,37 @@
 
 	<!-- Gallery Section -->
 	<section class="gallery-section">
-		<h2 data-aos="fade-up">Travel Moments</h2>
+		<h2 data-aos="fade-up" {@attach aosAttachment()}>Travel Moments</h2>
 		<div class="gallery-grid">
-			<div class="gallery-item large" data-aos="zoom-in" data-aos-delay="0">
+			<div class="gallery-item large" data-aos="zoom-in" {@attach aosAttachment({ delay: 0 })}>
 				<img
 					src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&h=600&fit=crop"
 					alt="Beach sunset"
 					loading="lazy"
 				/>
 			</div>
-			<div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
+			<div class="gallery-item" data-aos="zoom-in" {@attach aosAttachment({ delay: 100 })}>
 				<img
 					src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&h=300&fit=crop"
 					alt="Mountain lake"
 					loading="lazy"
 				/>
 			</div>
-			<div class="gallery-item" data-aos="zoom-in" data-aos-delay="200">
+			<div class="gallery-item" data-aos="zoom-in" {@attach aosAttachment({ delay: 200 })}>
 				<img
 					src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=400&h=300&fit=crop"
 					alt="Ancient temple"
 					loading="lazy"
 				/>
 			</div>
-			<div class="gallery-item" data-aos="zoom-in" data-aos-delay="300">
+			<div class="gallery-item" data-aos="zoom-in" {@attach aosAttachment({ delay: 300 })}>
 				<img
 					src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop"
 					alt="Forest path"
 					loading="lazy"
 				/>
 			</div>
-			<div class="gallery-item large" data-aos="zoom-in" data-aos-delay="400">
+			<div class="gallery-item large" data-aos="zoom-in" {@attach aosAttachment({ delay: 400 })}>
 				<img
 					src="https://images.unsplash.com/photo-1502791451862-7bd8c1df43a7?w=800&h=600&fit=crop"
 					alt="Desert adventure"
@@ -292,7 +294,7 @@
 	<section id="contact" class="contact-section">
 		<div class="container">
 			<div class="contact-grid">
-				<div class="contact-info" data-aos="fade-right">
+				<div class="contact-info" data-aos="fade-right" {@attach aosAttachment()}>
 					<h2>Let's Plan Your Trip</h2>
 					<p>
 						Our travel experts are ready to create your perfect itinerary. Reach out and let's start
@@ -319,7 +321,7 @@
 						<a href="#!" aria-label="YouTube">▶️</a>
 					</div>
 				</div>
-				<form class="contact-form" data-aos="fade-left">
+				<form class="contact-form" data-aos="fade-left" {@attach aosAttachment()}>
 					<div class="form-group">
 						<input type="text" placeholder="Your Name" required />
 					</div>
@@ -347,28 +349,28 @@
 	<footer class="footer">
 		<div class="container">
 			<div class="footer-grid">
-				<div class="footer-brand" data-aos="fade-up">
+				<div class="footer-brand" data-aos="fade-up" {@attach aosAttachment()}>
 					<div class="logo">
 						<span class="logo-icon">🌍</span>
 						<span class="logo-text">Wanderlust</span>
 					</div>
 					<p>Making travel dreams come true since 2010.</p>
 				</div>
-				<div class="footer-links" data-aos="fade-up" data-aos-delay="100">
+				<div class="footer-links" data-aos="fade-up" {@attach aosAttachment({ delay: 100 })}>
 					<h4>Quick Links</h4>
 					<a href="#destinations">Destinations</a>
 					<a href="#services">Services</a>
 					<a href="#testimonials">Reviews</a>
 					<a href="#contact">Contact</a>
 				</div>
-				<div class="footer-links" data-aos="fade-up" data-aos-delay="200">
+				<div class="footer-links" data-aos="fade-up" {@attach aosAttachment({ delay: 200 })}>
 					<h4>Support</h4>
 					<a href="#!">FAQ</a>
 					<a href="#!">Terms & Conditions</a>
 					<a href="#!">Privacy Policy</a>
 					<a href="#!">Cancellation Policy</a>
 				</div>
-				<div class="footer-newsletter" data-aos="fade-up" data-aos-delay="300">
+				<div class="footer-newsletter" data-aos="fade-up" {@attach aosAttachment({ delay: 300 })}>
 					<h4>Newsletter</h4>
 					<p>Subscribe for travel tips and exclusive deals</p>
 					<form class="newsletter-form">

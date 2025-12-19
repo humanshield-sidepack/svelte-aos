@@ -1,974 +1,1524 @@
 <script lang="ts">
-	import { aosObserver, toAosAttributes } from '$lib/aos.ts';
-	import '$lib/styles/full.css';
+	import { aosAttachment, aosAction, AOS } from '../lib/index.ts';
+
+	let copied = $state('');
+
+	function copyToClipboard(text: string, id: string) {
+		navigator.clipboard.writeText(text);
+		copied = id;
+		setTimeout(() => (copied = ''), 2000);
+	}
+
+	const installCommands = {
+		npm: 'npm install svelte-aos',
+		pnpm: 'pnpm add svelte-aos',
+		yarn: 'yarn add svelte-aos',
+		bun: 'bun add svelte-aos'
+	};
+
+	let selectedPM = $state<keyof typeof installCommands>('npm');
 </script>
 
 <svelte:head>
-	<title>AOS Svelte - Usage Guide</title>
+	<title>AOS Svelte — Animate On Scroll for Svelte</title>
+	<meta
+		name="description"
+		content="A lightweight, performant scroll animation library for Svelte 5"
+	/>
 </svelte:head>
 
-<main {@attach aosObserver({ threshold: 0.1, once: true })}>
-	<!-- Hero -->
-	<header class="hero">
-		<h1 data-aos="fade-down" data-aos-duration="600">AOS Svelte</h1>
-		<p data-aos="fade-up" data-aos-delay="100">Animate On Scroll library for Svelte 5</p>
-		<nav data-aos="fade-up" data-aos-delay="200">
-			<a href="#installation">Installation</a>
-			<a href="#quick-start">Quick Start</a>
+<AOS options={{ disable: false }} />
+
+<div class="page">
+	<!-- Navigation -->
+	<nav class="topnav">
+		<a href="/" class="logo">
+			<span class="logo-icon">◈</span>
+			AOS Svelte
+		</a>
+		<div class="nav-links">
+			<a href="#install">Install</a>
+			<a href="#usage">Usage</a>
 			<a href="#animations">Animations</a>
-			<a href="#options">Options</a>
 			<a href="#api">API</a>
 			<a
+				title="go to github repo"
 				href="https://github.com/humanshield-sidepack/svelte-aos"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="github-link"
+				class="github"
 			>
-				<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
 					<path
 						d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
 					/>
 				</svg>
-				GitHub
 			</a>
-		</nav>
+		</div>
+	</nav>
+
+	<!-- Hero -->
+	<header class="hero">
+		<div class="hero-content">
+			<div class="badge" data-aos="fade-down" use:aosAction={{ animation: 'fade-down' }}>
+				Svelte on scroll animation
+			</div>
+			<h1 data-aos="fade-up" use:aosAction={{ animation: 'fade-up', delay: 100 }}>
+				Animate elements<br />
+				<span class="gradient-text">on scroll</span>
+			</h1>
+			<p class="tagline" data-aos="fade-up" use:aosAction={{ animation: 'fade-up', delay: 200 }}>
+				A tiny, performant scroll animation library for Svelte.<br />
+				Zero dependencies. Under 1KB gzipped.
+			</p>
+			<div
+				class="hero-actions"
+				data-aos="fade-up"
+				use:aosAction={{ animation: 'fade-up', delay: 300 }}
+			>
+				<a href="#install" class="btn-primary">Get Started</a>
+				<a href="#animations" class="btn-secondary">See Animations</a>
+			</div>
+		</div>
+
+		<div class="hero-demo">
+			<div
+				class="demo-card"
+				data-aos="zoom-in"
+				{@attach aosAttachment({ animation: 'zoom-in', delay: 400 })}
+			>
+				<div class="demo-icon">✨</div>
+				<span>zoom-in</span>
+			</div>
+			<div
+				class="demo-card"
+				data-aos="fade-left"
+				{@attach aosAttachment({ animation: 'fade-left', delay: 500 })}
+			>
+				<div class="demo-icon">←</div>
+				<span>fade-left</span>
+			</div>
+			<div
+				class="demo-card"
+				data-aos="flip-up"
+				{@attach aosAttachment({ animation: 'flip-up', delay: 600 })}
+			>
+				<div class="demo-icon">↻</div>
+				<span>flip-up</span>
+			</div>
+		</div>
 	</header>
 
-	<!-- Why Section -->
-	<section class="why-section">
-		<div class="container">
-			<h2 data-aos="fade-up">Why AOS Svelte?</h2>
-			<p class="subtitle" data-aos="fade-up" data-aos-delay="50">
-				A lightweight, performant scroll animation library built specifically for Svelte
-			</p>
-
-			<div class="features-grid">
-				<div class="feature" data-aos="zoom-in" data-aos-delay="100">
-					<div class="feature-icon">⚡</div>
-					<h3>Blazing Fast</h3>
-					<p>
-						<strong>&lt;1KB</strong> gzipped JavaScript<br />
-						<strong>2KB</strong> gzipped CSS (full bundle)
-					</p>
-				</div>
-
-				<div class="feature" data-aos="zoom-in" data-aos-delay="200">
-					<div class="feature-icon">🎯</div>
-					<h3>Optimized Bundle</h3>
-					<p>
-						Import only what you need<br />
-						Selective CSS imports for minimal footprint
-					</p>
-				</div>
-
-				<div class="feature" data-aos="zoom-in" data-aos-delay="300">
-					<div class="feature-icon">🚀</div>
-					<h3>Zero Dependencies</h3>
-					<p>
-						No external dependencies<br />
-					</p>
-				</div>
-
-				<div class="feature" data-aos="zoom-in" data-aos-delay="400">
-					<div class="feature-icon">🔧</div>
-					<h3>Universal Compatibility</h3>
-					<p>
-						Svelte 4 & 5 support<br />
-						Actions or Attachments
-					</p>
-				</div>
-
-				<div class="feature" data-aos="zoom-in" data-aos-delay="500">
-					<div class="feature-icon">⚙️</div>
-					<h3>Highly Performant</h3>
-					<p>
-						Uses IntersectionObserver<br />
-						Optimized for smooth animations
-					</p>
-				</div>
-
-				<div class="feature" data-aos="zoom-in" data-aos-delay="600">
-					<div class="feature-icon">🎨</div>
-					<h3>Fully Customizable</h3>
-					<p>
-						30+ pre-built animations<br />
-						Flexible configuration options
-					</p>
-				</div>
-			</div>
+	<!-- Stats -->
+	<section class="stats">
+		<div class="stat" data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>
+			<span class="stat-value">&lt;1KB</span>
+			<span class="stat-label">JavaScript (gzip)</span>
+		</div>
+		<div
+			class="stat"
+			data-aos="fade-up"
+			{@attach aosAttachment({ animation: 'fade-up', delay: 100 })}
+		>
+			<span class="stat-value">~2KB</span>
+			<span class="stat-label">CSS (full bundle)</span>
+		</div>
+		<div
+			class="stat"
+			data-aos="fade-up"
+			{@attach aosAttachment({ animation: 'fade-up', delay: 200 })}
+		>
+			<span class="stat-value">30+</span>
+			<span class="stat-label">Animations</span>
+		</div>
+		<div
+			class="stat"
+			data-aos="fade-up"
+			{@attach aosAttachment({ animation: 'fade-up', delay: 300 })}
+		>
+			<span class="stat-value">0</span>
+			<span class="stat-label">Dependencies</span>
 		</div>
 	</section>
 
-	<!-- Installation -->
-	<section id="installation" class="section">
-		<h2 data-aos="fade-up">Installation</h2>
-		<div class="content" data-aos="fade-up" data-aos-delay="100">
-			<pre><code>npm install svelte-aos</code></pre>
-			<p>Or with pnpm/yarn:</p>
-			<pre><code
-					>pnpm add svelte-aos
-yarn add svelte-aos</code
-				></pre>
-		</div>
-	</section>
-
-	<!-- Quick Start -->
-	<section id="quick-start" class="section alt">
-		<h2 data-aos="fade-up">Quick Start</h2>
-
-		<div class="step" data-aos="fade-right">
-			<span class="step-num">1</span>
-			<div class="step-content">
-				<h3>Import the styles</h3>
-				<p>Import all styles or just what you need:</p>
-				<pre><code
-						>&lt;script&gt;
-  // All animations
-  import 'svelte-aos/styles/full.css';
-  
-  // Or selective (smaller bundle)
-  import 'svelte-aos/styles/base.css';  // Required
-  import 'svelte-aos/styles/fade.css';  // Only fade animations
-&lt;/script&gt;</code
-					></pre>
-			</div>
+	<!-- Install -->
+	<section id="install" class="section">
+		<div class="section-header">
+			<span class="section-tag">01</span>
+			<h2 data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>Installation</h2>
 		</div>
 
-		<div class="step" data-aos="fade-left">
-			<span class="step-num">2</span>
-			<div class="step-content">
-				<h3>Add the observer</h3>
-				<p>Use the Svelte 5 attachment or action on a container:</p>
-				<pre><code
-						>&lt;script&gt;
-  import &#123; aosObserver &#125; from 'svelte-aos';
-&lt;/script&gt;
-
-&lt;!-- Svelte 5 attachment syntax --&gt;
-&lt;main &#123;@attach aosObserver()&#125;&gt;
-  ...
-&lt;/main&gt;
-
-&lt;!-- Or use the action --&gt;
-&lt;main use:aosAction&gt;
-  ...
-&lt;/main&gt;</code
-					></pre>
-			</div>
-		</div>
-
-		<div class="step" data-aos="fade-right">
-			<span class="step-num">3</span>
-			<div class="step-content">
-				<h3>Add data-aos attributes</h3>
-				<p>Add <code>data-aos</code> to any element you want to animate:</p>
-				<pre><code
-						>&lt;div data-aos="fade-up"&gt;I'll fade in from below&lt;/div&gt;
-
-&lt;div data-aos="zoom-in" data-aos-delay="200"&gt;
-  I'll zoom in after 200ms
-&lt;/div&gt;</code
+		<div
+			class="install-box"
+			data-aos="fade-up"
+			{@attach aosAttachment({ animation: 'fade-up', delay: 100 })}
+		>
+			<div class="pm-tabs">
+				{#each Object.keys(installCommands) as pm}
+					<button
+						class="pm-tab"
+						class:active={selectedPM === pm}
+						onclick={() => (selectedPM = pm as keyof typeof installCommands)}
 					>
-				
-&lt;!-- Or you can use the helper function --&gt;
-&lt;div &#123;...toAosAttributes(&#123;
-  animation: 'fade-up',
-  delay: 150,
-  duration: 400,
-  once: true
-&#125;)&#125;&gt;Animated&lt;/div&gt;
-				</pre>
+						{pm}
+					</button>
+				{/each}
+			</div>
+			<div class="install-command">
+				<code>{installCommands[selectedPM]}</code>
+				<button
+					class="copy-btn"
+					onclick={() => copyToClipboard(installCommands[selectedPM], 'install')}
+				>
+					{copied === 'install' ? '✓' : '⧉'}
+				</button>
 			</div>
 		</div>
 	</section>
 
-	<!-- Available Animations -->
+	<!-- Usage -->
+	<section id="usage" class="section dark">
+		<div class="section-header">
+			<span class="section-tag">02</span>
+			<h2 data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>Quick Start</h2>
+		</div>
+
+		<div class="steps">
+			<div
+				class="step-card"
+				data-aos="fade-right"
+				{@attach aosAttachment({ animation: 'fade-right' })}
+			>
+				<div class="step-number">1</div>
+				<h3>Import Styles</h3>
+				<p>Add the CSS to your app. Import all or just what you need.</p>
+				<div class="code-block">
+					<pre><code
+							><span class="c">// Import everything</span>
+<span class="k">import</span> <span class="s">'svelte-aos/styles/full.css'</span>;
+
+<span class="c">// Or selectively</span>
+<span class="k">import</span> <span class="s">'svelte-aos/styles/base.css'</span>; <span class="c"
+								>// Required</span
+							>
+<span class="k">import</span> <span class="s">'svelte-aos/styles/fade.css'</span>; <span class="c"
+								>// Optional</span
+							></code
+						></pre>
+				</div>
+			</div>
+
+			<div
+				class="step-card"
+				data-aos="fade-right"
+				{@attach aosAttachment({ animation: 'fade-right', delay: 150 })}
+			>
+				<div class="step-number">2</div>
+				<h3>Add AOS Component</h3>
+				<p>Place at the top of your layout or page for global configuration.</p>
+				<div class="code-block">
+					<pre><code
+							><span class="t">&lt;script&gt;</span>
+  <span class="k">import</span> {'{ AOS }'} <span class="k">from</span> <span class="s"
+								>'svelte-aos'</span
+							>;
+<span class="t">&lt;/script&gt;</span>
+
+<span class="t">&lt;AOS</span> <span class="a">options</span>={'{{'} <span class="c"
+								>/* config */</span
+							> {'}'}} <span class="t">/&gt;</span></code
+						></pre>
+				</div>
+			</div>
+
+			<div
+				class="step-card"
+				data-aos="fade-right"
+				{@attach aosAttachment({ animation: 'fade-right', delay: 300 })}
+			>
+				<div class="step-number">3</div>
+				<h3>Animate Elements</h3>
+				<p>Use attachments (Svelte 5.29+) or actions (Svelte 4+).</p>
+				<div class="code-block">
+					<pre><code
+							><span class="c">&lt;!-- Svelte 5.29+ --&gt;</span>
+<span class="t">&lt;div</span>
+  <span class="a">data-aos</span>=<span class="s">"fade-up"</span>
+  {'{'}<span class="a">@attach</span> aosAttachment({'{'} animation: <span class="s">'fade-up'</span
+							> {'}'}){'}'}<span class="t">&gt;</span>
+  Hello
+<span class="t">&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- Svelte 4 to 5.28 --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-aos</span>=<span class="s">"fade-up"</span
+							> <span class="a">use:</span>aosAction<span class="t">&gt;</span>
+  Hello
+<span class="t">&lt;/div&gt;</span></code
+						></pre>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="info-callout"
+			data-aos="fade-up"
+			{@attach aosAttachment({ animation: 'fade-up', delay: 100 })}
+		>
+			<span class="callout-icon">💡</span>
+			<p>
+				The <code>data-aos</code> attribute enables animation on first page load when the element is already
+				visible. Without it, elements only animate when scrolled into view.
+			</p>
+		</div>
+	</section>
+
+	<!-- Animations -->
 	<section id="animations" class="section">
-		<h2 data-aos="fade-up">Available Animations</h2>
+		<div class="section-header">
+			<span class="section-tag">03</span>
+			<h2 data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>Animations</h2>
+		</div>
 
-		<div class="anim-group" data-aos="fade-up">
-			<h3>Fade</h3>
-			<p class="hint">Opacity + optional translate</p>
-			<div class="anim-list">
-				<code>fade</code>
-				<code>fade-up</code>
-				<code>fade-down</code>
-				<code>fade-left</code>
-				<code>fade-right</code>
-				<code>fade-up-left</code>
-				<code>fade-up-right</code>
-				<code>fade-down-left</code>
-				<code>fade-down-right</code>
+		<div class="animation-groups">
+			<div class="anim-group" data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>
+				<h3>
+					<span class="group-icon">◐</span>
+					Fade
+				</h3>
+				<p>Opacity transitions with optional movement</p>
+				<div class="anim-tags">
+					<span class="anim-tag">fade</span>
+					<span class="anim-tag">fade-up</span>
+					<span class="anim-tag">fade-down</span>
+					<span class="anim-tag">fade-left</span>
+					<span class="anim-tag">fade-right</span>
+					<span class="anim-tag">fade-up-left</span>
+					<span class="anim-tag">fade-up-right</span>
+					<span class="anim-tag">fade-down-left</span>
+					<span class="anim-tag">fade-down-right</span>
+				</div>
+			</div>
+
+			<div
+				class="anim-group"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 100 })}
+			>
+				<h3>
+					<span class="group-icon">◎</span>
+					Zoom
+				</h3>
+				<p>Scale transformations</p>
+				<div class="anim-tags">
+					<span class="anim-tag">zoom-in</span>
+					<span class="anim-tag">zoom-in-up</span>
+					<span class="anim-tag">zoom-in-down</span>
+					<span class="anim-tag">zoom-in-left</span>
+					<span class="anim-tag">zoom-in-right</span>
+					<span class="anim-tag">zoom-out</span>
+					<span class="anim-tag">zoom-out-up</span>
+					<span class="anim-tag">zoom-out-down</span>
+					<span class="anim-tag">zoom-out-left</span>
+					<span class="anim-tag">zoom-out-right</span>
+				</div>
+			</div>
+
+			<div
+				class="anim-group"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 200 })}
+			>
+				<h3>
+					<span class="group-icon">◇</span>
+					Flip
+				</h3>
+				<p>3D rotation effects</p>
+				<div class="anim-tags">
+					<span class="anim-tag">flip-up</span>
+					<span class="anim-tag">flip-down</span>
+					<span class="anim-tag">flip-left</span>
+					<span class="anim-tag">flip-right</span>
+				</div>
+			</div>
+
+			<div
+				class="anim-group"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 300 })}
+			>
+				<h3>
+					<span class="group-icon">▷</span>
+					Slide
+				</h3>
+				<p>Pure translation without opacity</p>
+				<div class="anim-tags">
+					<span class="anim-tag">slide-up</span>
+					<span class="anim-tag">slide-down</span>
+					<span class="anim-tag">slide-left</span>
+					<span class="anim-tag">slide-right</span>
+				</div>
 			</div>
 		</div>
 
-		<div class="anim-group" data-aos="fade-up" data-aos-delay="100">
-			<h3>Zoom</h3>
-			<p class="hint">Scale + optional translate</p>
-			<div class="anim-list">
-				<code>zoom-in</code>
-				<code>zoom-in-up</code>
-				<code>zoom-in-down</code>
-				<code>zoom-in-left</code>
-				<code>zoom-in-right</code>
-				<code>zoom-out</code>
-				<code>zoom-out-up</code>
-				<code>zoom-out-down</code>
-				<code>zoom-out-left</code>
-				<code>zoom-out-right</code>
+		<!-- Live Preview -->
+		<h3 class="preview-title" data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>
+			Live Preview
+		</h3>
+		<div class="preview-grid">
+			<div
+				class="preview-item"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up' })}
+			>
+				<span>fade-up</span>
+			</div>
+			<div
+				class="preview-item"
+				data-aos="fade-down"
+				{@attach aosAttachment({ animation: 'fade-down' })}
+			>
+				<span>fade-down</span>
+			</div>
+			<div
+				class="preview-item"
+				data-aos="zoom-in"
+				{@attach aosAttachment({ animation: 'zoom-in' })}
+			>
+				<span>zoom-in</span>
+			</div>
+			<div
+				class="preview-item"
+				data-aos="flip-left"
+				{@attach aosAttachment({ animation: 'flip-left' })}
+			>
+				<span>flip-left</span>
+			</div>
+			<div
+				class="preview-item"
+				data-aos="slide-right"
+				{@attach aosAttachment({ animation: 'slide-right' })}
+			>
+				<span>slide-right</span>
+			</div>
+			<div
+				class="preview-item"
+				data-aos="zoom-out"
+				{@attach aosAttachment({ animation: 'zoom-out' })}
+			>
+				<span>zoom-out</span>
 			</div>
 		</div>
 
-		<div class="anim-group" data-aos="fade-up" data-aos-delay="200">
-			<h3>Flip</h3>
-			<p class="hint">3D rotation effects</p>
-			<div class="anim-list">
-				<code>flip-up</code>
-				<code>flip-down</code>
-				<code>flip-left</code>
-				<code>flip-right</code>
-			</div>
-		</div>
-
-		<div class="anim-group" data-aos="fade-up" data-aos-delay="300">
-			<h3>Slide</h3>
-			<p class="hint">Translate from edge (no opacity)</p>
-			<div class="anim-list">
-				<code>slide-up</code>
-				<code>slide-down</code>
-				<code>slide-left</code>
-				<code>slide-right</code>
-			</div>
+		<!-- Staggered -->
+		<h3 class="preview-title" data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>
+			Staggered Delays
+		</h3>
+		<div class="stagger-row">
+			{#each [0, 100, 200, 300, 400] as delay, i}
+				<div
+					class="stagger-item"
+					data-aos="fade-up"
+					{@attach aosAttachment({ animation: 'fade-up', delay })}
+				>
+					{delay}ms
+				</div>
+			{/each}
 		</div>
 	</section>
 
-	<!-- Per-Element Options -->
-	<section id="options" class="section alt">
-		<h2 data-aos="fade-up">Per-Element Options</h2>
-		<p data-aos="fade-up" data-aos-delay="50">
-			Customize each element with <code>data-aos-*</code> attributes:
-		</p>
+	<!-- Options -->
+	<section class="section dark">
+		<div class="section-header">
+			<span class="section-tag">04</span>
+			<h2 data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>Options</h2>
+		</div>
 
 		<div class="options-grid">
-			<div class="option-card" data-aos="fade-up" data-aos-delay="100">
-				<h4>data-aos-duration</h4>
-				<p>Animation duration in ms</p>
-				<pre><code>&lt;div data-aos="fade" data-aos-duration="1000"&gt;</code></pre>
+			<div class="option-item" data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>
+				<code class="option-name">duration</code>
+				<span class="option-type">number</span>
+				<p>Animation duration in milliseconds</p>
+				<span class="option-default">Default: 400</span>
 			</div>
 
-			<div class="option-card" data-aos="fade-up" data-aos-delay="150">
-				<h4>data-aos-delay</h4>
+			<div
+				class="option-item"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 50 })}
+			>
+				<code class="option-name">delay</code>
+				<span class="option-type">number</span>
 				<p>Delay before animation starts</p>
-				<pre><code>&lt;div data-aos="fade" data-aos-delay="300"&gt;</code></pre>
+				<span class="option-default">Default: 0</span>
 			</div>
 
-			<div class="option-card" data-aos="fade-up" data-aos-delay="200">
-				<h4>data-aos-easing</h4>
-				<p>Easing function for the animation</p>
-				<pre><code>&lt;div data-aos="fade" data-aos-easing="ease-out-back"&gt;</code></pre>
+			<div
+				class="option-item"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 100 })}
+			>
+				<code class="option-name">easing</code>
+				<span class="option-type">string</span>
+				<p>CSS easing function</p>
+				<span class="option-default">Default: 'ease'</span>
 			</div>
 
-			<div class="option-card" data-aos="fade-up" data-aos-delay="250">
-				<h4>data-aos-once</h4>
-				<p>Only animate once (won't reverse)</p>
-				<pre><code>&lt;div data-aos="fade" data-aos-once&gt;</code></pre>
+			<div
+				class="option-item"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 150 })}
+			>
+				<code class="option-name">once</code>
+				<span class="option-type">boolean</span>
+				<p>Animate only once (no reverse)</p>
+				<span class="option-default">Default: false</span>
+			</div>
+
+			<div
+				class="option-item"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 200 })}
+			>
+				<code class="option-name">offset</code>
+				<span class="option-type">number</span>
+				<p>Offset from viewport edge (px)</p>
+				<span class="option-default">Default: 120</span>
+			</div>
+
+			<div
+				class="option-item"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 250 })}
+			>
+				<code class="option-name">threshold</code>
+				<span class="option-type">number</span>
+				<p>Visibility ratio to trigger (0-1)</p>
+				<span class="option-default">Default: 0.1</span>
 			</div>
 		</div>
 
-		<h3 data-aos="fade-up">Available Easings</h3>
-		<div class="easing-list" data-aos="fade-up" data-aos-delay="100">
-			<code>linear</code>
-			<code>ease</code>
-			<code>ease-in</code>
-			<code>ease-out</code>
-			<code>ease-in-out</code>
-			<code>ease-in-back</code>
-			<code>ease-out-back</code>
-			<code>ease-in-out-back</code>
-			<code>ease-in-sine</code>
-			<code>ease-out-sine</code>
-			<code>ease-in-out-sine</code>
-			<code>ease-in-quad</code>
-			<code>ease-out-quad</code>
-			<code>ease-in-out-quad</code>
-			<code>ease-in-cubic</code>
-			<code>ease-out-cubic</code>
-			<code>ease-in-out-cubic</code>
-			<code>ease-in-quart</code>
-			<code>ease-out-quart</code>
-			<code>ease-in-out-quart</code>
+		<h3 class="easing-title" data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>
+			Available Easings
+		</h3>
+		<div
+			class="easing-grid"
+			data-aos="fade-up"
+			{@attach aosAttachment({ animation: 'fade-up', delay: 100 })}
+		>
+			{#each ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', 'ease-in-back', 'ease-out-back', 'ease-in-out-back', 'ease-in-sine', 'ease-out-sine', 'ease-in-out-sine', 'ease-in-quad', 'ease-out-quad', 'ease-in-out-quad', 'ease-in-cubic', 'ease-out-cubic', 'ease-in-out-cubic', 'ease-in-quart', 'ease-out-quart', 'ease-in-out-quart'] as easing}
+				<code class="easing-tag">{easing}</code>
+			{/each}
 		</div>
 	</section>
 
-	<!-- API Reference -->
+	<!-- API -->
 	<section id="api" class="section">
-		<h2 data-aos="fade-up">API Reference</h2>
-
-		<div class="api-block" data-aos="fade-up">
-			<h3>aosObserver(options?)</h3>
-			<p>Svelte 5 attachment for observing elements. Attach to a container element.</p>
-			<pre><code
-					>&lt;main &#123;@attach aosObserver(&#123;
-  threshold: 0.1,    // Visibility threshold (0-1)
-  offset: 120,       // Offset from viewport edge (px)
-  duration: 600,     // Default duration (ms)
-  delay: 0,          // Default delay (ms)
-  easing: 'ease',    // Default easing
-  once: false,       // Animate only once
-  disable: false,    // Disable animations
-  anchorPlacement: 'top-bottom'
-&#125;)&#125;&gt;</code
-				></pre>
+		<div class="section-header">
+			<span class="section-tag">05</span>
+			<h2 data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>API Reference</h2>
 		</div>
 
-		<div class="api-block" data-aos="fade-up" data-aos-delay="100">
-			<h3>aosAction(node, options?)</h3>
-			<p>Svelte action (use: directive) — same options as aosObserver.</p>
-			<pre><code
-					>&lt;main use:aosAction=&#123;&#123; once: true, threshold: 0.2 &#125;&#125;&gt;</code
-				></pre>
-		</div>
-
-		<div class="api-block" data-aos="fade-up" data-aos-delay="200">
-			<h3>toAosAttributes(options)</h3>
-			<p>Two ways to configure elements — choose whichever you prefer:</p>
-
-			<div class="approach-tabs">
-				<div class="approach">
-					<h4>Option A: HTML attributes (declarative)</h4>
-					<p>Add <code>data-aos-*</code> attributes directly in your markup:</p>
+		<div class="api-cards">
+			<div class="api-card" data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>
+				<h3>&lt;AOS /&gt;</h3>
+				<p>Global configuration component. Place at root level.</p>
+				<div class="code-block">
 					<pre><code
-							>&lt;div 
-  data-aos="fade-up"
-  data-aos-delay="150"
-  data-aos-duration="400"
-  data-aos-once
-&gt;
-  Animated
-&lt;/div&gt;</code
-						></pre>
-				</div>
-
-				<div class="approach">
-					<h4>Option B: toAosAttributes helper (programmatic)</h4>
-					<p>Generate attributes with a helper and spread them:</p>
-					<pre><code
-							>import &#123; toAosAttributes &#125; from 'svelte-aos';
-
-
-// Use with spread
-&lt;div &#123;...toAosAttributes(&#123;
-  animation: 'fade-up',
-  delay: 150,
-  duration: 400,
-  once: true
-&#125;)&#125;&gt;Animated&lt;/div&gt;</code
+							><span class="t">&lt;AOS</span>
+  <span class="a">options</span>={'{{'}{`
+    offset: 120,
+    delay: 0,
+    duration: 400,
+    easing: 'ease',
+    once: false,
+    disable: false,
+    threshold: 0.1,
+    anchorPlacement: 'top-bottom'
+  `}{'}'}}
+<span class="t">/&gt;</span></code
 						></pre>
 				</div>
 			</div>
 
-			<p class="approach-note">Both produce the same result. Use what fits your workflow!</p>
-		</div>
+			<div
+				class="api-card"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 100 })}
+			>
+				<h3>aosAttachment</h3>
+				<span class="api-badge">Svelte 5.29+</span>
+				<p>Svelte 5 attachment for individual elements.</p>
+				<div class="code-block">
+					<pre><code
+							><span class="t">&lt;div</span>
+  {'{'}<span class="a">@attach</span> aosAttachment({'{'}
+    animation: <span class="s">'fade-up'</span>,
+    delay: 150,
+    duration: 400,
+    once: true
+  {'}'}){'}'}
+<span class="t">&gt;</span></code
+						></pre>
+				</div>
+			</div>
 
-		<div class="api-block" data-aos="fade-up" data-aos-delay="300">
-			<h3>disable option</h3>
-			<p>Disable animations conditionally:</p>
-			<pre><code
-					>// Disable on specific device
-aosObserver(&#123; disable: 'mobile' &#125;)  // 'mobile' | 'tablet' | 'desktop'
+			<div
+				class="api-card"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 200 })}
+			>
+				<h3>aosAction</h3>
+				<span class="api-badge secondary">Svelte 4 - 5.28</span>
+				<p>Svelte action for individual elements.</p>
+				<div class="code-block">
+					<pre><code
+							><span class="t">&lt;div</span>
+  <span class="a">use:</span>aosAction={'{{'}{`
+    animation: 'fade-up',
+    delay: 150,
+    duration: 400,
+    once: true
+  `}{'}'}}
+<span class="t">&gt;</span></code
+						></pre>
+				</div>
+			</div>
 
-// Disable entirely
-aosObserver(&#123; disable: true &#125;)
+			<div
+				class="api-card"
+				data-aos="fade-up"
+				{@attach aosAttachment({ animation: 'fade-up', delay: 300 })}
+			>
+				<h3>disable</h3>
+				<p>Disable animations globally or conditionally.</p>
+				<div class="code-block">
+					<pre><code
+							><span class="t">&lt;AOS</span> <span class="a">options</span>={'{{'}{`
+  // Device type
+  disable: 'mobile'  // 'phone' | 'tablet'
 
-// Custom function
-aosObserver(&#123; disable: () => window.innerWidth &lt; 768 &#125;)</code
-				></pre>
+  // Boolean
+  disable: true
+
+  // Function
+  disable: () => window.innerWidth < 768
+`}{'}'}} <span class="t">/&gt;</span></code
+						></pre>
+				</div>
+			</div>
 		</div>
 	</section>
 
-	<!-- Selective Imports -->
-	<section class="section alt">
-		<h2 data-aos="fade-up">Selective CSS Imports</h2>
-		<p data-aos="fade-up" data-aos-delay="50">
-			Only import the animations you use to reduce bundle size:
+	<!-- CSS Imports -->
+	<section class="section dark">
+		<div class="section-header">
+			<span class="section-tag">06</span>
+			<h2 data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>
+				Selective Imports
+			</h2>
+		</div>
+
+		<p
+			class="section-desc"
+			data-aos="fade-up"
+			{@attach aosAttachment({ animation: 'fade-up', delay: 50 })}
+		>
+			Only import the animations you need to minimize bundle size.
 		</p>
 
-		<div class="imports-table" data-aos="fade-up" data-aos-delay="100">
-			<table>
-				<thead>
-					<tr>
-						<th>File</th>
-						<th>Animations</th>
-						<th>Required</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><code>base.css</code></td>
-						<td>Core setup, CSS variables, reduced motion</td>
-						<td>✅ Yes</td>
-					</tr>
-					<tr>
-						<td><code>fade.css</code></td>
-						<td>fade, fade-up, fade-down, etc.</td>
-						<td>Optional</td>
-					</tr>
-					<tr>
-						<td><code>zoom.css</code></td>
-						<td>zoom-in, zoom-out variants</td>
-						<td>Optional</td>
-					</tr>
-					<tr>
-						<td><code>flip.css</code></td>
-						<td>flip-up, flip-down, etc.</td>
-						<td>Optional</td>
-					</tr>
-					<tr>
-						<td><code>slide.css</code></td>
-						<td>slide-up, slide-down, etc.</td>
-						<td>Optional</td>
-					</tr>
-					<tr>
-						<td><code>easings.css</code></td>
-						<td>Custom easing functions</td>
-						<td>Optional</td>
-					</tr>
-					<tr>
-						<td><code>full.css</code></td>
-						<td>Everything bundled</td>
-						<td>Convenience</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<pre data-aos="fade-up" data-aos-delay="150"><code
-				>// Example: Only fade animations with custom easings
-import 'svelte-aos/styles/base.css';
-import 'svelte-aos/styles/fade.css';
-import 'svelte-aos/styles/easings.css';</code
-			></pre>
-	</section>
-
-	<!-- Live Examples -->
-	<section class="section">
-		<h2 data-aos="fade-up">Live Examples</h2>
-
-		<div class="example-row">
-			<div class="example-card" data-aos="fade-up">
-				<div class="example-label">fade-up</div>
+		<div
+			class="imports-table"
+			data-aos="fade-up"
+			{@attach aosAttachment({ animation: 'fade-up', delay: 100 })}
+		>
+			<div class="table-row header">
+				<span>File</span>
+				<span>Contents</span>
+				<span>Required</span>
 			</div>
-			<div class="example-card" data-aos="fade-down">
-				<div class="example-label">fade-down</div>
+			<div class="table-row">
+				<code>base.css</code>
+				<span>Core setup, CSS variables, reduced motion</span>
+				<span class="required">✓ Required</span>
 			</div>
-			<div class="example-card" data-aos="fade-left">
-				<div class="example-label">fade-left</div>
+			<div class="table-row">
+				<code>fade.css</code>
+				<span>fade, fade-up, fade-down, etc.</span>
+				<span class="optional">Optional</span>
 			</div>
-			<div class="example-card" data-aos="fade-right">
-				<div class="example-label">fade-right</div>
+			<div class="table-row">
+				<code>zoom.css</code>
+				<span>zoom-in, zoom-out variants</span>
+				<span class="optional">Optional</span>
 			</div>
-		</div>
-
-		<div class="example-row">
-			<div class="example-card" data-aos="zoom-in">
-				<div class="example-label">zoom-in</div>
+			<div class="table-row">
+				<code>flip.css</code>
+				<span>flip-up, flip-down, etc.</span>
+				<span class="optional">Optional</span>
 			</div>
-			<div class="example-card" data-aos="zoom-out">
-				<div class="example-label">zoom-out</div>
+			<div class="table-row">
+				<code>slide.css</code>
+				<span>slide-up, slide-down, etc.</span>
+				<span class="optional">Optional</span>
 			</div>
-			<div class="example-card" data-aos="flip-left">
-				<div class="example-label">flip-left</div>
+			<div class="table-row">
+				<code>easings.css</code>
+				<span>Custom easing functions</span>
+				<span class="optional">Optional</span>
 			</div>
-			<div class="example-card" data-aos="flip-right">
-				<div class="example-label">flip-right</div>
-			</div>
-		</div>
-
-		<div class="example-row">
-			<div class="example-card" data-aos="fade-up" data-aos-delay="0">
-				<div class="example-label">delay: 0</div>
-			</div>
-			<div class="example-card" data-aos="fade-up" data-aos-delay="200">
-				<div class="example-label">delay: 200</div>
-			</div>
-			<div class="example-card" data-aos="fade-up" data-aos-delay="400">
-				<div class="example-label">delay: 400</div>
-			</div>
-			<div class="example-card" data-aos="fade-up" data-aos-delay="600">
-				<div class="example-label">delay: 600</div>
-			</div>
-		</div>
-
-		<div class="example-row">
-			<div class="example-card" data-aos="zoom-in" data-aos-easing="ease-in-back">
-				<div class="example-label">ease-in-back</div>
-			</div>
-			<div class="example-card" data-aos="zoom-in" data-aos-easing="ease-out-back">
-				<div class="example-label">ease-out-back</div>
-			</div>
-			<div class="example-card" data-aos="zoom-in" data-aos-easing="ease-out-cubic">
-				<div class="example-label">ease-out-cubic</div>
-			</div>
-			<div class="example-card" data-aos="zoom-in" data-aos-easing="ease-in-out-quart">
-				<div class="example-label">ease-in-out-quart</div>
+			<div class="table-row">
+				<code>full.css</code>
+				<span>Everything bundled</span>
+				<span class="convenience">Convenience</span>
 			</div>
 		</div>
 	</section>
 
 	<!-- Footer -->
 	<footer>
-		<p>AOS Svelte — Scroll to reveal animations for Svelte 5</p>
-		<p>
-			<a href="/travel">Travel Agency</a> · <a href="/ecommerce">E-commerce SaaS</a> ·
-			<a href="/no-mutation">Explicit AOS attachement</a>
-		</p>
+		<div class="footer-content">
+			<div class="footer-brand">
+				<span class="logo-icon">◈</span>
+				<span>AOS Svelte</span>
+			</div>
+			<p>Scroll animations for Svelte 5</p>
+			<div class="footer-links">
+				<a href="/">Main Guide</a>
+				<span>·</span>
+				<a href="/travel">Travel Demo</a>
+				<span>·</span>
+				<a href="/ecommerce">E-commerce Demo</a>
+				<span>·</span>
+				<a
+					href="https://github.com/humanshield-sidepack/svelte-aos"
+					target="_blank"
+					rel="noopener noreferrer">GitHub</a
+				>
+			</div>
+		</div>
 	</footer>
-</main>
+</div>
 
 <style>
+	* {
+		box-sizing: border-box;
+	}
+
 	:global(html) {
 		scroll-behavior: smooth;
 	}
+
 	:global(body) {
 		margin: 0;
 		font-family:
+			'Inter',
 			system-ui,
 			-apple-system,
 			sans-serif;
-		background: #fafafa;
-		color: #1a1a1a;
+		background: #0a0a0f;
+		color: #e4e4e7;
 		line-height: 1.6;
+		overflow-x: hidden;
+	}
+
+	.page {
+		min-height: 100vh;
+	}
+
+	/* Navigation */
+	.topnav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem 2rem;
+		background: rgba(10, 10, 15, 0.8);
+		backdrop-filter: blur(12px);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+	}
+
+	.logo {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-weight: 600;
+		font-size: 1.1rem;
+		color: #fff;
+		text-decoration: none;
+	}
+
+	.logo-icon {
+		color: #8b5cf6;
+		font-size: 1.4rem;
+	}
+
+	.nav-links {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+	}
+
+	.nav-links a {
+		color: #a1a1aa;
+		text-decoration: none;
+		font-size: 0.9rem;
+		transition: color 0.2s;
+	}
+
+	.nav-links a:hover {
+		color: #fff;
+	}
+
+	.nav-links .github {
+		display: flex;
+		color: #71717a;
+	}
+
+	.nav-links .github:hover {
+		color: #fff;
 	}
 
 	/* Hero */
 	.hero {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 8rem 2rem 4rem;
+		background: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a0f 70%);
 		text-align: center;
-		padding: 6rem 2rem 4rem;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-		color: white;
+		gap: 4rem;
+	}
+
+	.hero-content {
+		max-width: 700px;
+	}
+
+	.badge {
+		display: inline-block;
+		padding: 0.4rem 1rem;
+		background: rgba(139, 92, 246, 0.15);
+		border: 1px solid rgba(139, 92, 246, 0.3);
+		border-radius: 100px;
+		font-size: 0.8rem;
+		color: #a78bfa;
+		margin-bottom: 1.5rem;
 	}
 
 	.hero h1 {
-		font-size: 3.5rem;
-		margin: 0 0 0.5rem;
+		font-size: 4rem;
 		font-weight: 700;
+		line-height: 1.1;
+		margin: 0 0 1.5rem;
+		letter-spacing: -0.02em;
 	}
 
-	.hero p {
-		font-size: 1.25rem;
-		opacity: 0.9;
-		margin: 0 0 2rem;
+	.gradient-text {
+		background: linear-gradient(135deg, #8b5cf6, #ec4899);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
 	}
 
-	.hero nav {
+	.tagline {
+		font-size: 1.2rem;
+		color: #a1a1aa;
+		margin: 0 0 2.5rem;
+	}
+
+	.hero-actions {
 		display: flex;
-		gap: 1.5rem;
+		gap: 1rem;
 		justify-content: center;
 		flex-wrap: wrap;
 	}
 
-	.hero nav a {
-		color: white;
+	.btn-primary {
+		padding: 0.85rem 2rem;
+		background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+		color: #fff;
+		border-radius: 8px;
 		text-decoration: none;
-		padding: 0.5rem 1rem;
-		border-radius: 6px;
-		background: rgba(255, 255, 255, 0.15);
-		transition: background 0.2s;
+		font-weight: 500;
+		transition:
+			transform 0.2s,
+			box-shadow 0.2s;
 	}
 
-	.hero nav a:hover {
-		background: rgba(255, 255, 255, 0.25);
+	.btn-primary:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
 	}
 
-	.hero nav a.github-link {
-		display: inline-flex;
+	.btn-secondary {
+		padding: 0.85rem 2rem;
+		background: transparent;
+		color: #fff;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 8px;
+		text-decoration: none;
+		font-weight: 500;
+		transition:
+			border-color 0.2s,
+			background 0.2s;
+	}
+
+	.btn-secondary:hover {
+		border-color: rgba(255, 255, 255, 0.4);
+		background: rgba(255, 255, 255, 0.05);
+	}
+
+	.hero-demo {
+		display: flex;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.demo-card {
+		width: 120px;
+		height: 120px;
+		background: rgba(255, 255, 255, 0.03);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 16px;
+		display: flex;
+		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 		gap: 0.5rem;
 	}
 
-	.hero nav a.github-link svg {
-		flex-shrink: 0;
+	.demo-icon {
+		font-size: 2rem;
 	}
 
-	/* Why Section */
-	.why-section {
-		padding: 6rem 2rem;
-		background: white;
+	.demo-card span {
+		font-size: 0.75rem;
+		color: #71717a;
 	}
 
-	.container {
-		max-width: 1200px;
-		margin: 0 auto;
-	}
-
-	.why-section h2 {
-		font-size: 2.5rem;
-		text-align: center;
-		margin: 0 0 0.5rem;
-		color: #2d3436;
-	}
-
-	.subtitle {
-		text-align: center;
-		color: #636e72;
-		font-size: 1.15rem;
-		margin: 0 0 4rem;
-	}
-
-	.features-grid {
+	/* Stats */
+	.stats {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-		gap: 2.5rem;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1px;
+		background: rgba(255, 255, 255, 0.06);
 	}
 
-	.feature {
+	.stat {
+		padding: 3rem 2rem;
+		background: #0a0a0f;
 		text-align: center;
-		padding: 2rem 1.5rem;
-		background: #f8f9fa;
-		border-radius: 16px;
-		transition:
-			transform 0.3s,
-			box-shadow 0.3s;
 	}
 
-	.feature:hover {
-		transform: translateY(-5px);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+	.stat-value {
+		display: block;
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: #fff;
+		margin-bottom: 0.25rem;
 	}
 
-	.feature-icon {
-		font-size: 3rem;
-		margin-bottom: 1rem;
-	}
-
-	.feature h3 {
-		font-size: 1.25rem;
-		margin: 0 0 0.75rem;
-		color: #2d3436;
-	}
-
-	.feature p {
-		color: #636e72;
-		line-height: 1.6;
-		margin: 0;
-	}
-
-	.feature p strong {
-		color: #667eea;
-		font-weight: 600;
+	.stat-label {
+		font-size: 0.9rem;
+		color: #71717a;
 	}
 
 	/* Sections */
 	.section {
-		padding: 5rem 2rem;
-		max-width: 900px;
+		padding: 6rem 2rem;
+		max-width: 1100px;
 		margin: 0 auto;
 	}
 
-	.section.alt {
-		background: #f0f0f0;
+	.section.dark {
+		background: #111118;
 		max-width: 100%;
 	}
 
-	.section.alt > * {
-		max-width: 900px;
+	.section.dark > * {
+		max-width: 1100px;
 		margin-left: auto;
 		margin-right: auto;
 	}
 
-	.section h2 {
-		font-size: 2rem;
-		margin: 0 0 1.5rem;
-		color: #333;
+	.section-header {
+		margin-bottom: 3rem;
 	}
 
-	.section h3 {
+	.section-tag {
+		display: inline-block;
+		font-size: 0.75rem;
+		color: #8b5cf6;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		margin-bottom: 0.75rem;
+	}
+
+	.section h2 {
+		font-size: 2.5rem;
+		font-weight: 700;
+		margin: 0;
+		color: #fff;
+	}
+
+	.section-desc {
+		color: #a1a1aa;
+		font-size: 1.1rem;
+		margin: 0 0 2rem;
+	}
+
+	/* Install */
+	.install-box {
+		background: rgba(255, 255, 255, 0.03);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 12px;
+		overflow: hidden;
+		max-width: 500px;
+	}
+
+	.pm-tabs {
+		display: flex;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.pm-tab {
+		flex: 1;
+		padding: 0.75rem;
+		background: transparent;
+		border: none;
+		color: #71717a;
+		font-size: 0.85rem;
+		cursor: pointer;
+		transition:
+			color 0.2s,
+			background 0.2s;
+	}
+
+	.pm-tab:hover {
+		color: #a1a1aa;
+	}
+
+	.pm-tab.active {
+		color: #fff;
+		background: rgba(139, 92, 246, 0.1);
+	}
+
+	.install-command {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1.25rem;
+	}
+
+	.install-command code {
+		font-family: 'JetBrains Mono', 'Fira Code', monospace;
+		font-size: 0.95rem;
+		color: #e4e4e7;
+	}
+
+	.copy-btn {
+		width: 36px;
+		height: 36px;
+		background: rgba(255, 255, 255, 0.06);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 8px;
+		color: #a1a1aa;
+		cursor: pointer;
+		transition:
+			background 0.2s,
+			color 0.2s;
+	}
+
+	.copy-btn:hover {
+		background: rgba(255, 255, 255, 0.1);
+		color: #fff;
+	}
+
+	/* Steps */
+	.steps {
+		display: grid;
+		gap: 1.5rem;
+	}
+
+	.step-card {
+		background: rgba(255, 255, 255, 0.02);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		border-radius: 16px;
+		padding: 0.75rem;
+		@media (min-width: 600px) {
+			padding: 2.5rem;
+		}
+	}
+
+	.step-number {
+		width: 32px;
+		height: 32px;
+		background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 600;
+		font-size: 0.9rem;
+		margin-bottom: 1rem;
+	}
+
+	.step-card h3 {
 		font-size: 1.25rem;
-		margin: 2rem 0 1rem;
-		color: #444;
+		margin: 0 0 0.5rem;
+		color: #fff;
+	}
+
+	.step-card > p {
+		color: #a1a1aa;
+		margin: 0 0 1.5rem;
+		font-size: 0.95rem;
 	}
 
 	/* Code blocks */
-	pre {
-		background: #1e1e1e;
-		color: #d4d4d4;
+	.code-block {
+		background: #0a0a0f;
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		border-radius: 10px;
 		padding: 1.25rem;
-		border-radius: 8px;
 		overflow-x: auto;
-		font-size: 0.9rem;
-		line-height: 1.5;
+		max-width: 80vw;
 	}
 
-	code {
-		font-family: 'SF Mono', 'Fira Code', monospace;
+	.code-block pre {
+		margin: 0;
 	}
 
-	p code,
-	td code,
-	li code {
-		background: #e8e8e8;
+	.code-block code {
+		font-family: 'JetBrains Mono', 'Fira Code', monospace;
+		font-size: 0.85rem;
+		line-height: 1.7;
+	}
+
+	.code-block .c {
+		color: #6b7280;
+	}
+	.code-block .k {
+		color: #c084fc;
+	}
+	.code-block .s {
+		color: #34d399;
+	}
+	.code-block .t {
+		color: #f472b6;
+	}
+	.code-block .a {
+		color: #60a5fa;
+	}
+
+	/* Info callout */
+	.info-callout {
+		display: flex;
+		gap: 1rem;
+		padding: 1.25rem 1.5rem;
+		background: rgba(139, 92, 246, 0.08);
+		border: 1px solid rgba(139, 92, 246, 0.2);
+		border-radius: 12px;
+		margin-top: 2rem;
+	}
+
+	.callout-icon {
+		font-size: 1.25rem;
+		flex-shrink: 0;
+	}
+
+	.info-callout p {
+		margin: 0;
+		color: #c4b5fd;
+		font-size: 0.95rem;
+	}
+
+	.info-callout code {
+		background: rgba(139, 92, 246, 0.2);
 		padding: 0.15rem 0.4rem;
 		border-radius: 4px;
 		font-size: 0.85em;
 	}
 
-	/* Steps */
-	.step {
-		display: flex;
+	/* Animation groups */
+	.animation-groups {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 		gap: 1.5rem;
-		margin: 2rem 0;
-		align-items: flex-start;
+		margin-bottom: 4rem;
 	}
 
-	.step-num {
-		width: 48px;
-		height: 48px;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-		color: white;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-weight: 700;
-		font-size: 1.25rem;
-		flex-shrink: 0;
-	}
-
-	.step-content {
-		flex: 1;
-	}
-
-	.step-content h3 {
-		margin: 0 0 0.5rem;
-	}
-
-	.step-content p {
-		margin: 0 0 1rem;
-		color: #666;
-	}
-
-	/* Animation lists */
 	.anim-group {
-		margin: 2rem 0;
-		padding: 1.5rem;
-		background: white;
-		border-radius: 12px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+		background: rgba(255, 255, 255, 0.02);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		border-radius: 16px;
+		padding: 1.75rem;
+		@media (max-width: 765px) {
+			padding: 1rem;
+		}
 	}
 
 	.anim-group h3 {
-		margin: 0 0 0.25rem;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		font-size: 1.1rem;
+		margin: 0 0 0.5rem;
+		color: #fff;
 	}
 
-	.hint {
-		color: #888;
+	.group-icon {
+		color: #8b5cf6;
+	}
+
+	.anim-group > p {
+		color: #71717a;
 		font-size: 0.9rem;
 		margin: 0 0 1rem;
 	}
 
-	.anim-list,
-	.easing-list {
+	.anim-tags {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem;
 	}
 
-	.anim-list code,
-	.easing-list code {
-		background: #f0f0f0;
+	.anim-tag {
 		padding: 0.35rem 0.75rem;
+		background: rgba(255, 255, 255, 0.04);
 		border-radius: 6px;
-		font-size: 0.85rem;
-	}
-
-	/* Options grid */
-	.options-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-		gap: 1.5rem;
-		margin: 1.5rem 0;
-	}
-
-	.option-card {
-		background: white;
-		padding: 1.5rem;
-		border-radius: 12px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-	}
-
-	.option-card h4 {
-		margin: 0 0 0.5rem;
-		color: #667eea;
-	}
-
-	.option-card p {
-		margin: 0 0 1rem;
-		color: #666;
-		font-size: 0.95rem;
-	}
-
-	.option-card pre {
-		margin: 0;
 		font-size: 0.8rem;
+		color: #a1a1aa;
+		font-family: 'JetBrains Mono', monospace;
 	}
 
-	/* API blocks */
-	.api-block {
-		margin: 2rem 0;
-		padding: 2rem;
-		background: white;
-		border-radius: 12px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	/* Preview */
+	.preview-title {
+		font-size: 1.25rem;
+		color: #fff;
+		margin: 0 0 1.5rem;
 	}
 
-	.api-block h3 {
-		margin: 0 0 0.75rem;
-		color: #667eea;
-		font-family: 'SF Mono', 'Fira Code', monospace;
-	}
-
-	.api-block > p {
-		margin: 0 0 1rem;
-		color: #666;
-	}
-
-	.api-block pre {
-		margin: 0;
-	}
-
-	/* Approach tabs */
-	.approach-tabs {
+	.preview-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 1.5rem;
-		margin: 1rem 0;
-	}
-
-	.approach {
-		background: #f8f8f8;
-		border-radius: 8px;
-		padding: 1.25rem;
-		border: 1px solid #e8e8e8;
-	}
-
-	.approach h4 {
-		margin: 0 0 0.5rem;
-		font-size: 0.95rem;
-		color: #444;
-	}
-
-	.approach > p {
-		margin: 0 0 0.75rem;
-		font-size: 0.9rem;
-		color: #666;
-	}
-
-	.approach pre {
-		margin: 0;
-		font-size: 0.8rem;
-	}
-
-	.approach-note {
-		margin-top: 1rem;
-		padding: 0.75rem 1rem;
-		background: #f0f4ff;
-		border-radius: 6px;
-		font-size: 0.9rem;
-		color: #555;
-	}
-
-	/* Imports table */
-	.imports-table {
-		overflow-x: auto;
-	}
-
-	table {
-		width: 100%;
-		border-collapse: collapse;
-		background: white;
-		border-radius: 12px;
-		overflow: hidden;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-	}
-
-	th,
-	td {
-		padding: 1rem;
-		text-align: left;
-		border-bottom: 1px solid #eee;
-	}
-
-	th {
-		background: #f8f8f8;
-		font-weight: 600;
-	}
-
-	tr:last-child td {
-		border-bottom: none;
-	}
-
-	/* Example cards */
-	.example-row {
-		display: flex;
+		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 		gap: 1rem;
-		margin: 1.5rem 0;
-		flex-wrap: wrap;
-		justify-content: center;
+		margin-bottom: 4rem;
 	}
 
-	.example-card {
-		width: 160px;
+	.preview-item {
 		height: 100px;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #8b5cf6, #7c3aed);
 		border-radius: 12px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: white;
+		font-size: 0.85rem;
 		font-weight: 500;
 	}
 
-	.example-label {
+	.stagger-row {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.stagger-item {
+		width: 80px;
+		height: 80px;
+		background: linear-gradient(135deg, #ec4899, #f472b6);
+		border-radius: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		font-size: 0.85rem;
-		text-align: center;
+		font-weight: 500;
+	}
+
+	/* Options */
+	.options-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1rem;
+		margin-bottom: 3rem;
+	}
+
+	.option-item {
+		background: rgba(255, 255, 255, 0.02);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		border-radius: 12px;
+		padding: 1.5rem;
+		@media (max-width: 765px) {
+			padding: 2rem;
+		}
+	}
+
+	.option-name {
+		font-family: 'JetBrains Mono', monospace;
+		color: #8b5cf6;
+		font-size: 1rem;
+	}
+
+	.option-type {
+		display: inline-block;
+		margin-left: 0.75rem;
+		padding: 0.2rem 0.5rem;
+		background: rgba(255, 255, 255, 0.06);
+		border-radius: 4px;
+		font-size: 0.75rem;
+		color: #71717a;
+	}
+
+	.option-item p {
+		color: #a1a1aa;
+		margin: 0.75rem 0 0.5rem;
+		font-size: 0.9rem;
+	}
+
+	.option-default {
+		font-size: 0.8rem;
+		color: #52525b;
+	}
+
+	.easing-title {
+		font-size: 1.25rem;
+		color: #fff;
+		margin: 0 0 1.5rem;
+	}
+
+	.easing-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.easing-tag {
+		padding: 0.4rem 0.75rem;
+		background: rgba(255, 255, 255, 0.04);
+		border-radius: 6px;
+		font-size: 0.8rem;
+		color: #a1a1aa;
+		font-family: 'JetBrains Mono', monospace;
+	}
+
+	/* API */
+	.api-cards {
+		display: block;
+		& * {
+			margin-bottom: 2rem;
+		}
+	}
+
+	.api-card {
+		background: rgba(255, 255, 255, 0.02);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		border-radius: 16px;
+		padding: 0.75rem;
+		@media (min-width: 600px) {
+			padding: 2.5rem;
+		}
+	}
+
+	.api-card h3 {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 1.15rem;
+		color: #fff;
+		margin: 0 0 0.5rem;
+	}
+
+	.api-badge {
+		display: inline-block;
+		padding: 0.2rem 0.6rem;
+		background: rgba(139, 92, 246, 0.15);
+		border-radius: 4px;
+		font-size: 0.7rem;
+		color: #a78bfa;
+		margin-bottom: 0.75rem;
+	}
+
+	.api-badge.secondary {
+		background: rgba(236, 72, 153, 0.15);
+		color: #f472b6;
+	}
+
+	.api-card > p {
+		color: #a1a1aa;
+		font-size: 0.95rem;
+		margin: 0 0 1.5rem;
+	}
+
+	/* Imports table */
+	.imports-table {
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 12px;
+		overflow: hidden;
+	}
+
+	.table-row {
+		display: grid;
+		grid-template-columns: 150px 1fr 120px;
+		gap: 1rem;
+		padding: 1rem 1.5rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+		align-items: center;
+	}
+
+	.table-row:last-child {
+		border-bottom: none;
+	}
+
+	.table-row.header {
+		background: rgba(255, 255, 255, 0.03);
+		font-weight: 600;
+		font-size: 0.85rem;
+		color: #71717a;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.table-row code {
+		font-family: 'JetBrains Mono', monospace;
+		color: #8b5cf6;
+		font-size: 0.9rem;
+	}
+
+	.required {
+		color: #34d399;
+		font-size: 0.85rem;
+	}
+
+	.optional {
+		color: #71717a;
+		font-size: 0.85rem;
+	}
+
+	.convenience {
+		color: #f472b6;
+		font-size: 0.85rem;
 	}
 
 	/* Footer */
 	footer {
-		text-align: center;
 		padding: 4rem 2rem;
-		background: #1a1a1a;
-		color: #888;
+		background: #0a0a0f;
+		border-top: 1px solid rgba(255, 255, 255, 0.06);
+		text-align: center;
 	}
 
-	footer a {
-		color: #667eea;
+	.footer-content {
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.footer-brand {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		font-weight: 600;
+		font-size: 1.1rem;
+		color: #fff;
+		margin-bottom: 0.5rem;
+	}
+
+	footer p {
+		color: #52525b;
+		margin: 0 0 1.5rem;
+	}
+
+	.footer-links {
+		display: flex;
+		gap: 0.75rem;
+		justify-content: center;
+		flex-wrap: wrap;
+		color: #3f3f46;
+	}
+
+	.footer-links a {
+		color: #71717a;
 		text-decoration: none;
+		transition: color 0.2s;
 	}
 
-	footer a:hover {
-		text-decoration: underline;
+	.footer-links a:hover {
+		color: #8b5cf6;
 	}
 
 	/* Responsive */
-	@media (max-width: 640px) {
+	@media (max-width: 768px) {
+		.topnav {
+			padding: 1rem;
+		}
+
+		.nav-links {
+			gap: 1rem;
+		}
+
+		.nav-links a:not(.github) {
+			display: none;
+		}
+
+		.hero {
+			padding: 6rem 1rem 3rem;
+		}
+
 		.hero h1 {
 			font-size: 2.5rem;
 		}
 
-		.step {
-			flex-direction: column;
-			align-items: center;
-			text-align: center;
+		.tagline {
+			font-size: 1rem;
+		}
+
+		.stats {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.stat {
+			padding: 2rem 1rem;
+		}
+
+		.stat-value {
+			font-size: 2rem;
 		}
 
 		.section {
-			padding: 3rem 1.5rem;
+			padding: 4rem 1rem;
 		}
 
-		.example-card {
-			width: 140px;
-			height: 80px;
+		.section h2 {
+			font-size: 2rem;
+		}
+
+		.table-row {
+			grid-template-columns: 1fr;
+			gap: 0.5rem;
+		}
+
+		.table-row.header {
+			display: none;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.hero h1 {
+			font-size: 2rem;
+		}
+
+		.demo-card {
+			width: 100px;
+			height: 100px;
+		}
+
+		.preview-item,
+		.stagger-item {
+			height: 70px;
 		}
 	}
 </style>

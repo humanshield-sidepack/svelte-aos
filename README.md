@@ -2,234 +2,288 @@
 
 Animate On Scroll library for Svelte 5. Trigger CSS animations when elements scroll into view.
 
-## Quick Start
+This package will give you an easy way to bring scroll-based animations to your Svelte applications using a simple and flexible API.
 
-```svelte
-<script>
-	import { aosObserver } from 'svelte-aos';
-	import 'svelte-aos/styles/full.css';
-</script>
+## ✨ Why AOS Svelte?
 
-<main {@attach aosObserver()}>
-	<div data-aos="fade-up">I animate when scrolled into view</div>
-</main>
-```
+- ⚡ **Tiny** — <1KB gzipped JavaScript + <1kb modular CSS
+- 🎯 **Optimized Bundle** — Import only what you need for minimal footprint
+- 🚀 **Zero Dependencies** — No external dependencies
+- 🔧 **Universal Compatibility** — Svelte 4 & 5 support (Actions or Attachments)
+- ⚙️ **Highly Performant** — Only tracks and animates elements explicitly marked for animation
+- 🎨 **Fully Customizable** — 30+ pre-built animations with flexible configuration
 
 ## Installation
 
 ```bash
 npm install svelte-aos
+# or
+pnpm add svelte-aos
+# or
+yarn add svelte-aos
 ```
 
-## Usage
+## Quick Start
 
-### 1. Import Styles
+### 1. Import the styles
 
 ```js
-// All animations
+// Import all animations
 import 'svelte-aos/styles/full.css';
 
-// Or selective (smaller bundle)
+// Or import only what you need for smaller bundle
 import 'svelte-aos/styles/base.css'; // Required
-import 'svelte-aos/styles/fade.css'; // Optional
-import 'svelte-aos/styles/zoom.css'; // Optional
-import 'svelte-aos/styles/flip.css'; // Optional
-import 'svelte-aos/styles/slide.css'; // Optional
-import 'svelte-aos/styles/easings.css'; // Optional
+import 'svelte-aos/styles/fade.css'; // Only fade animations
 ```
 
-### 2. Add Observer
+Or in CSS:
 
-**Svelte 5 attachment:**
+```css
+/* Import all animations */
+@import 'svelte-aos/styles/full.css';
 
-```svelte
-<main {@attach aosObserver()}>
-	<!-- elements with data-aos will animate -->
-</main>
+/* Or import only what you need */
+@import 'svelte-aos/styles/base.css'; /* Required */
+@import 'svelte-aos/styles/fade.css'; /* Only fade animations */
 ```
 
-**Svelte action:**
+### 2. Add the AOS component to your page or layout
 
-```svelte
-<main use:aosAction>
-	<!-- elements with data-aos will animate -->
-</main>
-```
-
-### 3. Add Animations
-
-```svelte
-<div data-aos="fade-up">Fade up</div>
-<div data-aos="zoom-in">Zoom in</div>
-<div data-aos="flip-left">Flip left</div>
-```
-
-Or use the `toAosAttributes` helper to generate attributes programmatically.
-
-```svelte
+```html
 <script>
-	import { toAosAttributes } from 'svelte-aos';
-	const attrs = toAosAttributes({
-		animation: 'fade-up',
-		delay: 150,
-		duration: 400,
-		once: true
-	});
+  import { aosAttachment, aosAction, AOS } from 'svelte-aos';
 </script>
 
-<div {...attrs}>Animated</div>
-<!-- or inline -->
-<div data-aos="fade-up" {...toAosAttributes({ delay: 150, duration: 400, once: true })}>
-	Animated
-</div>
+<AOS options={{ /* options */ }} />
+
+<!-- Rest of your page or layout -->
 ```
 
-## Animations
+### 3. Add animations to elements
+
+**Svelte 5.29+ (attachment):**
+
+```html
+<script>
+  import { aosAttachment } from 'svelte-aos';
+</script>
+
+<!-- Add data-aos only if you want the element to animate on first load when in viewport -->
+<h2 data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up' })}>
+  AOS The Svelte Way
+</h2>
+```
+
+**Svelte 4.x to 5.28 (action):**
+
+```html
+<script>
+  import { aosAction } from 'svelte-aos';
+</script>
+
+<h2 data-aos="fade" use:aosAction={{ animation: 'fade' }}>
+  AOS The Svelte Way
+</h2>
+```
+
+## Available Animations
 
 ### Fade
 
-```text
+Opacity + optional translate
+
+```
 fade  fade-up  fade-down  fade-left  fade-right
 fade-up-left  fade-up-right  fade-down-left  fade-down-right
 ```
 
 ### Zoom
 
-```text
+Scale + optional translate
+
+```
 zoom-in  zoom-in-up  zoom-in-down  zoom-in-left  zoom-in-right
 zoom-out  zoom-out-up  zoom-out-down  zoom-out-left  zoom-out-right
 ```
 
 ### Flip
 
-```text
+3D rotation effects
+
+```
 flip-up  flip-down  flip-left  flip-right
 ```
 
 ### Slide
 
-```text
+Translate from edge (no opacity)
+
+```
 slide-up  slide-down  slide-left  slide-right
 ```
 
 ## Per-Element Options
 
+Customize each element with attachment or action parameters:
+
+### Duration
+
 ```svelte
-<!-- Duration (ms) -->
-<div data-aos="fade" data-aos-duration="1000">Slow fade</div>
+<!-- Svelte 5.29+ -->
+<div data-aos="fade" {@attach aosAttachment({ animation: 'fade', duration: 1000 })}>
 
-<!-- Delay (ms) -->
-<div data-aos="fade" data-aos-delay="300">Delayed</div>
+<!-- Svelte 4.x to 5.28 -->
+<div data-aos="fade" use:aosAction={{ animation: 'fade', duration: 1000 }}>
+```
 
-<!-- Easing -->
-<div data-aos="fade" data-aos-easing="ease-out-back">Bouncy</div>
+### Delay
 
-<!-- Animate only once -->
-<div data-aos="fade" data-aos-once>Once only</div>
+```svelte
+<!-- Svelte 5.29+ -->
+<div data-aos="fade" {@attach aosAttachment({ animation: 'fade', delay: 300 })}>
+
+<!-- Svelte 4.x to 5.28 -->
+<div data-aos="fade" use:aosAction={{ animation: 'fade', delay: 300 }}>
+```
+
+### Easing
+
+```svelte
+<!-- Svelte 5.29+ -->
+<div data-aos="fade" {@attach aosAttachment({ animation: 'fade', easing: 'ease-out-back' })}>
+
+<!-- Svelte 4.x to 5.28 -->
+<div data-aos="fade" use:aosAction={{ animation: 'fade', easing: 'ease-out-back' }}>
+```
+
+### Animate Once
+
+```svelte
+<!-- Svelte 5.29+ -->
+<div data-aos="fade" {@attach aosAttachment({ animation: 'fade', once: true })}>
+
+<!-- Svelte 4.x to 5.28 -->
+<div data-aos="fade" use:aosAction={{ animation: 'fade', once: true }}>
 ```
 
 ### Staggered Animation
 
 ```svelte
-<div data-aos="fade-up" data-aos-delay="0">First</div>
-<div data-aos="fade-up" data-aos-delay="100">Second</div>
-<div data-aos="fade-up" data-aos-delay="200">Third</div>
+<div data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up', delay: 0 })}>First</div>
+<div data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up', delay: 100 })}>Second</div>
+<div data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up', delay: 200 })}>Third</div>
 ```
 
-## Easings
+## Available Easings
 
-```text
-linear  ease  ease-in  ease-out  ease-in-out
-ease-in-back  ease-out-back  ease-in-out-back
-ease-in-sine  ease-out-sine  ease-in-out-sine
-ease-in-quad  ease-out-quad  ease-in-out-quad
-ease-in-cubic  ease-out-cubic  ease-in-out-cubic
-ease-in-quart  ease-out-quart  ease-in-out-quart
+```
+linear    ease    ease-in   ease-out    ease-in-out
+ease-in-back    ease-out-back    ease-in-out-back
+ease-in-sine     ease-out-sine    ease-in-out-sine
+ease-in-quad    ease-out-quad   ease-in-out-quad
+ease-in-cubic   ease-out-cubic    ease-in-out-cubic
+ease-in-quart   ease-out-quart     ease-in-out-quart
 ```
 
-## Global Options
+## API Reference
+
+### `<AOS />` Component
+
+Add once at the top level of your page or layout. Configures global defaults.
 
 ```svelte
-<main {@attach aosObserver({
-  threshold: 0.1,         // 0-1, visibility ratio to trigger
-  offset: 120,            // px from viewport edge
-  duration: 600,          // default duration (ms)
-  delay: 0,               // default delay (ms)
-  easing: 'ease',         // default easing
-  once: false,            // animate only once
-  disable: false,         // disable all animations
-  anchorPlacement: 'top-bottom'
-})}>
+<AOS
+	options={{
+		offset: 120, // Offset from viewport edge (px)
+		delay: 0, // Default delay before animation (ms)
+		duration: 400, // Default animation duration (ms)
+		easing: 'ease', // Default easing function
+		once: false, // Animate only once per element
+		anchorPlacement: 'top-bottom', // Which position triggers animation
+		disable: false, // Disable all animations
+		threshold: 0.1 // IntersectionObserver visibility threshold (0-1)
+	}}
+/>
 ```
+
+### `aosAttachment` (Svelte 5.29+)
+
+Svelte 5 attachment for individual elements.
+
+```svelte
+<div
+	data-aos="fade-up"
+	{@attach aosAttachment({
+		animation: 'fade-up',
+		delay: 150,
+		duration: 400,
+		once: true
+	})}
+>
+	Animated
+</div>
+```
+
+### `aosAction` (Svelte 4.x to 5.28)
+
+Svelte action for individual elements.
+
+```svelte
+<div
+	data-aos="fade-up"
+	use:aosAction={{
+		animation: 'fade-up',
+		delay: 150,
+		duration: 400,
+		once: true
+	}}
+>
+	Animated
+</div>
+```
+
+> 💡 **Note:** The `data-aos` attribute is only needed if you want the element to animate on first page load when already visible in the viewport.
 
 ### Disable Option
 
+Disable all animations globally via the `<AOS />` component:
+
+```svelte
+<AOS
+  options={{
+    // Disable on specific device type
+    disable: 'mobile'    // 'mobile' | 'phone' | 'tablet'
+
+    // Or disable entirely
+    disable: true
+
+    // Or use a custom function
+    disable: () => window.innerWidth < 768
+  }}
+/>
+```
+
+## Selective CSS Imports
+
+Only import the animations you use to reduce bundle size:
+
+| File          | Animations                                | Required    |
+| ------------- | ----------------------------------------- | ----------- |
+| `base.css`    | Core setup, CSS variables, reduced motion | ✅ Yes      |
+| `fade.css`    | fade, fade-up, fade-down, etc.            | Optional    |
+| `zoom.css`    | zoom-in, zoom-out variants                | Optional    |
+| `flip.css`    | flip-up, flip-down, etc.                  | Optional    |
+| `slide.css`   | slide-up, slide-down, etc.                | Optional    |
+| `easings.css` | Custom easing functions                   | Optional    |
+| `full.css`    | Everything bundled                        | Convenience |
+
+**Example: Only fade animations with custom easings**
+
 ```js
-// Disable on device type
-aosObserver({ disable: 'mobile' }); // 'mobile' | 'tablet' | 'desktop'
-
-// Disable entirely
-aosObserver({ disable: true });
-
-// Custom condition
-aosObserver({ disable: () => window.innerWidth < 768 });
+import 'svelte-aos/styles/base.css';
+import 'svelte-aos/styles/fade.css';
+import 'svelte-aos/styles/easings.css';
 ```
-
-## API
-
-### aosObserver(options?)
-
-Svelte 5 attachment. Observes all `[data-aos]` elements inside the container, this is where all the magic happens, it uses a mutation observer and an intersection observer under the hood.
-
-```svelte
-<main {@attach aosObserver({ once: true })}>
-	<div data-aos="fade">...</div>
-</main>
-```
-
-### aosAction
-
-Svelte action (use: directive). Same options as `aosObserver`.
-
-```svelte
-<main use:aosAction={{ threshold: 0.2 }}>
-	<div data-aos="fade">...</div>
-</main>
-```
-
-### toAosAttributes(options)
-
-Generate attributes programmatically:
-
-```svelte
-<script>
-  import { toAosAttributes } from 'svelte-aos';
-
-  const attrs = toAosAttributes({
-    animation: 'fade-up',
-    delay: 150,
-    duration: 400,
-    once: true
-  });
-</script>
-
-<div {...attrs}>Animated</div>
-
-<!-- Equivalent to: -->
-<div data-aos="fade-up" data-aos-delay="150" data-aos-duration="400" data-aos-once>
-```
-
-## CSS Files
-
-| File          | Contents                                 |
-| ------------- | ---------------------------------------- |
-| `base.css`    | Core setup, CSS variables (**required**) |
-| `fade.css`    | Fade animations                          |
-| `zoom.css`    | Zoom animations                          |
-| `flip.css`    | Flip animations                          |
-| `slide.css`   | Slide animations                         |
-| `easings.css` | Custom easing functions                  |
-| `full.css`    | All of the above                         |
 
 ## Examples
 
@@ -237,68 +291,43 @@ Generate attributes programmatically:
 
 ```svelte
 <script>
-	import { aosObserver } from 'svelte-aos';
+	import { aosAttachment, AOS } from 'svelte-aos';
 	import 'svelte-aos/styles/full.css';
 </script>
 
-<main {@attach aosObserver()}>
+<AOS config={{ once: true, disable: 'mobile' }} />
+
+<main>
 	<section>
-		<h1 data-aos="fade-down">Welcome</h1>
-		<p data-aos="fade-up" data-aos-delay="100">Scroll to see more</p>
+		<h1 data-aos="fade-down" {@attach aosAttachment({ animation: 'fade-down' })}>Welcome</h1>
+		<p data-aos="fade-up" {@attach aosAttachment({ animation: 'fade-up', delay: 100 })}>
+			Scroll to see more
+		</p>
 	</section>
 
 	<section>
-		<div data-aos="fade-right">Card 1</div>
-		<div data-aos="fade-right" data-aos-delay="100">Card 2</div>
-		<div data-aos="fade-right" data-aos-delay="200">Card 3</div>
+		<div data-aos="fade-right" {@attach aosAttachment({ animation: 'fade-right' })}>Card 1</div>
+		<div data-aos="fade-right" {@attach aosAttachment({ animation: 'fade-right', delay: 100 })}>
+			Card 2
+		</div>
+		<div data-aos="fade-right" {@attach aosAttachment({ animation: 'fade-right', delay: 200 })}>
+			Card 3
+		</div>
 	</section>
 </main>
 ```
 
-### Animate Once
+### With Custom Easing
 
 ```svelte
-<main {@attach aosObserver({ once: true })}>
-	<div data-aos="zoom-in">Animates once, stays visible</div>
-</main>
+<div data-aos="zoom-in" {@attach aosAttachment({ animation: 'zoom-in', easing: 'ease-out-back' })}>
+	Bouncy zoom effect
+</div>
 ```
 
-### With Dynamic Content
+### Contributing
 
-```svelte
-<script>
-	import { aosObserver } from 'svelte-aos';
-	import 'svelte-aos/styles/full.css';
-
-	let items = $state([]);
-
-	async function loadMore() {
-		items = [...items, ...(await fetchItems())];
-	}
-</script>
-
-<!-- MutationObserver auto-detects new [data-aos] elements -->
-<main {@attach aosObserver()}>
-	{#each items as item, i}
-		<div data-aos="fade-up" data-aos-delay={i * 50}>{item.name}</div>
-	{/each}
-	<button onclick={loadMore}>Load More</button>
-</main>
-```
-
-### Minimal Bundle (Fade Only)
-
-```svelte
-<script>
-	import { aosObserver } from 'svelte-aos';
-	import 'svelte-aos/styles/base.css';
-	import 'svelte-aos/styles/fade.css';
-</script>
-
-<main {@attach aosObserver()}>
-	<div data-aos="fade-up">Only fade animations available</div>
-</main>
-```
+Contributions, issues, and feature requests are welcome! No formal contribution process is set up yet, but feel free to open issues or submit pull requests.
 
 ## License
 
