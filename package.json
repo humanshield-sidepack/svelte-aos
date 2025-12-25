@@ -1,6 +1,6 @@
 {
 	"name": "svelte-aos",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"license": "MIT",
 	"description": "Svelte Animate On Scroll (AOS) library for Svelte applications. Easily add scroll-based animations to your Svelte components with customizable options.",
 	"author": {
@@ -95,7 +95,8 @@
 		"vite": "^7.2.6",
 		"vite-plugin-devtools-json": "^1.0.0",
 		"vitest": "^4.0.15",
-		"vitest-browser-svelte": "^2.0.1"
+		"vitest-browser-svelte": "^2.0.1",
+		"shiki": "^3.20.0"
 	},
 	"keywords": [
 		"svelte"
@@ -103,7 +104,5 @@
 	"lint-staged": {
 		"*.{js,ts,svelte,css,md,json}": "prettier --write"
 	},
-	"dependencies": {
-		"shiki": "^3.20.0"
-	}
+	"dependencies": {}
 }
